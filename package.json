@@ -1,7 +1,7 @@
 {
   "name": "tweet-lightning",
   "version": "0.0.1",
-  "author": "RinNakashima <rin.nakashima@studist.jp>",
+  "author": "FruitRiin",
   "description": "An electron-vue project",
   "license": null,
   "main": "./dist/electron/main.js",
@@ -20,7 +20,7 @@
   },
   "build": {
     "productName": "tweet-lightning",
-    "appId": "space.riinswork",
+    "appId": "space.riinswork.tweet-lightning",
     "directories": {
       "output": "build"
     },
@@ -53,7 +53,10 @@
     }
   },
   "dependencies": {
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "axios": "^0.18.0",
+    "vue-electron": "^1.0.6",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "ajv": "^6.5.0",

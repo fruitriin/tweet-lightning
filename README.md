@@ -1,4 +1,4 @@
-# my-project
+# tweet-lightning
 
 > An electron-vue project
 
