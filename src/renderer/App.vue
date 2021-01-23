@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'tweet-lightning'
-  }
+export default {
+  name: "TweetLightning",
+}
 </script>
 
 <style>
-  /* CSS */
+/* CSS */
 </style>

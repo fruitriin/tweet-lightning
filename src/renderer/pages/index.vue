@@ -2,14 +2,14 @@
   <div>
     <div v-if="user">
       <img :src="user.profile_image_url_https" />
-      <label for="">{{ user.name }}(@{{ user.screen_name }})</label>
+      <label for>{{ user.name }}(@{{ user.screen_name }})</label>
     </div>
     <form @submit.prevent="submit" @keyup.ctrl.enter="submit">
-      <textarea v-model="message"></textarea>
+      <textarea v-model="message" />
       <input type="submit" />
     </form>
     <label for="debugToggle">
-      <input id="debugToggle" type="checkbox" v-model="isDebug" /> Debug
+      <input id="debugToggle" v-model="isDebug" type="checkbox" /> Debug
       mode（投稿しない）
     </label>
     <pre>{{ debug }}</pre>
@@ -18,51 +18,51 @@
 </template>
 
 <script>
-const Twitter = require('twitter-lite')
-require('dotenv').config()
+const Twitter = require("twitter-lite")
+require("dotenv").config()
 
 export default {
-  data () {
+  data() {
     return {
-      message: '',
+      message: "",
       user: null,
-      debug: '',
+      debug: "",
       isDebug: true,
-      client: null
+      client: null,
     }
   },
-  mounted () {
-    this.$electron.ipcRenderer.send('ready')
-    this.$electron.ipcRenderer.on('tokens', (event, tokens) => {
+  mounted() {
+    this.$electron.ipcRenderer.send("ready")
+    this.$electron.ipcRenderer.on("tokens", (event, tokens) => {
       console.log(tokens)
       this.client = new Twitter({
         consumer_key: process.env.consumer_key,
         consumer_secret: process.env.consumer_secret,
         access_token_key: tokens[0].token,
-        access_token_secret: tokens[0].tokenSecret
+        access_token_secret: tokens[0].tokenSecret,
       })
       // this.$electron.ipcRenderer.send('perform-action')
-      this.client.get('account/verify_credentials').then(res => {
+      this.client.get("account/verify_credentials").then((res) => {
         this.user = res
       })
     })
   },
 
   methods: {
-    submit () {
+    submit() {
       if (this.isDebug) {
         this.debug = this.message
         return
       }
       this.client
-        .post('statuses/update', { status: this.message })
-        .then(tweet => {
-          this.message = ''
+        .post("statuses/update", { status: this.message })
+        .then((tweet) => {
+          this.message = ""
         })
-        .catch(err => {
+        .catch((err) => {
           window.alert(JSON.stringify(err))
         })
-    }
-  }
+    },
+  },
 }
 </script>

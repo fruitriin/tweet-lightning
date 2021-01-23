@@ -1,16 +1,16 @@
-import Vue from 'vue'
-import axios from 'axios'
+import Vue from "vue"
+import axios from "axios"
 
-import App from './App'
-import Router from 'vue-router'
-import routes from 'vue-auto-routing'
+import App from "./App"
+import Router from "vue-router"
+import routes from "vue-auto-routing"
 
 Vue.use(Router)
 const router = new Router({
-  routes: routes
+  routes: routes,
 })
 
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
+if (!process.env.IS_WEB) Vue.use(require("vue-electron"))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
@@ -18,5 +18,5 @@ Vue.config.productionTip = false
 new Vue({
   components: { App },
   router,
-  template: '<App/>'
-}).$mount('#app')
+  template: "<App/>",
+}).$mount("#app")

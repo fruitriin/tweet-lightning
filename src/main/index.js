@@ -1,25 +1,26 @@
-'use strict'
+"use strict"
 
-import { app, ipcMain, BrowserWindow, Tray, Menu } from 'electron'
-require('dotenv').config()
-const Store = require('electron-store')
+import { app, ipcMain, BrowserWindow, Tray, Menu } from "electron"
+require("dotenv").config()
+const Store = require("electron-store")
 const store = new Store()
-const auth = require('oauth-electron-twitter')
-
+const auth = require("oauth-electron-twitter")
+const path = require("path")
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
-if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+if (process.env.NODE_ENV !== "development") {
+  global.__static = path.join(__dirname, "/static").replace(/\\/g, "\\\\")
 }
 
 let mainWindow
-const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
-  : `file://${__dirname}/index.html`
+const winURL =
+  process.env.NODE_ENV === "development"
+    ? `http://localhost:9080`
+    : path.resolve("file://", __dirname, "/index.html")
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
@@ -30,87 +31,95 @@ function createWindow () {
     skipTaskbar: true,
     alwaysOnTop: true,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   })
 
   mainWindow.loadURL(winURL)
 
   // 閉じるボタンでウィンドウを非表示
-  mainWindow.on('close', (e) => {
+  mainWindow.on("close", (e) => {
     e.preventDefault()
     mainWindow.hide()
   })
 
-  mainWindow.on('closed', () => {
+  mainWindow.on("closed", () => {
     mainWindow = null
   })
 }
 
 // 設定画面を開く
-function openPreference () {
+function openPreference() {
   const winPreference = new BrowserWindow({
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   })
-  winPreference.loadURL(winURL + '#preference')
+  winPreference.loadURL(winURL + "#preference")
 }
 // ElectronReady
-app.on('ready', () => {
+app.on("ready", () => {
   createWindow()
-  const tray = new Tray('static/hoge.png')
+  const tray = new Tray("static/hoge.png")
   const contextMenu = Menu.buildFromTemplate([
-    { label: '投稿', click: () => { mainWindow.show() } },
-    { label: '設定', click: () => { openPreference() } },
-    { label: '終了', click: () => app.quite() }
+    {
+      label: "投稿",
+      click: () => {
+        mainWindow.show()
+      },
+    },
+    {
+      label: "設定",
+      click: () => {
+        openPreference()
+      },
+    },
+    { label: "終了", click: () => app.quite() },
   ])
-  tray.setToolTip('This is my application.')
+  tray.setToolTip("This is my application.")
   tray.setContextMenu(contextMenu)
 })
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
     app.quit()
   }
 })
 
-app.on('activate', () => {
+app.on("activate", () => {
   if (mainWindow === null) {
     createWindow()
   }
 })
 
 // Vueがスタンバイできたら
-ipcMain.on('ready', () => {
-  const accounts = store.get('accounts')
+ipcMain.on("ready", () => {
+  const accounts = store.get("accounts")
   // トークン更新
-  mainWindow.webContents.send(
-    'tokens',
-    accounts
-  )
+  mainWindow.webContents.send("tokens", accounts)
 })
 
 // ログイン認証
-ipcMain.on('perform-action', () => {
+ipcMain.on("perform-action", () => {
   const info = {
     key: process.env.consumer_key,
-    secret: process.env.consumer_secret
+    secret: process.env.consumer_secret,
   }
 
   const authWindow = new BrowserWindow()
   authWindow.webContents.session.clearCache()
   authWindow.webContents.session.clearStorageData()
-  auth.login(info, authWindow)
-    .then(res => {
-      const accounts = store.get('accounts') || []
+  auth
+    .login(info, authWindow)
+    .then((res) => {
+      const accounts = store.get("accounts") || []
       // スクリーンネームで重複チェックがいるかも
       accounts.push(res)
-      store.set('accounts', accounts)
+      store.set("accounts", accounts)
       authWindow.close()
     })
-    .catch(err => {
-      console.log('err' + JSON.stringify(err))
+    .catch((err) => {
+      console.log("err" + JSON.stringify(err))
     })
 })
 
