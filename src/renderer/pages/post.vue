@@ -27,7 +27,7 @@ export default {
     }
   },
   created() {
-    this.$renderer.send("postWindowReady")
+    this.$renderer.send("postWindow-ready")
     this.$renderer.on("getTokens", (event, tokens) => {
       this.client = new Twitter({
         consumer_key: process.env.consumer_key,
@@ -46,6 +46,7 @@ export default {
         .post("statuses/update", { status: this.message })
         .then((tweet) => {
           this.message = ""
+          this.$renderer.send("postWindow-posted")
         })
         .catch((err) => {
           window.alert(JSON.stringify(err))

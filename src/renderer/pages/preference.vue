@@ -2,8 +2,9 @@
   <div>
     <p>Pereference</p>
     <div>
+      認証済みアカウント
       <div v-for="(token, key) in tokens" :key="key">
-        {{ token }}
+        [{{ key + 1 }}] {{ token.user }}
       </div>
     </div>
 

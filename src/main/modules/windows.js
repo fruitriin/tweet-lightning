@@ -1,4 +1,5 @@
 import { store } from "./store"
+import Twitter from "twitter-lite"
 const { BrowserWindow } = require("electron")
 const path = require("path")
 const auth = require("oauth-electron-twitter")
@@ -11,9 +12,6 @@ const winURL =
     : path.resolve("file://", __dirname, "/index.html")
 
 function createWindow() {
-  /**
-   * Initial window options
-   */
   mainWindow = new BrowserWindow({
     useContentSize: true,
     width: 300,
@@ -63,16 +61,24 @@ function openAuthWindow() {
     .login(info, authWindow)
     .then((res) => {
       const accounts = store.get("accounts") || []
-      // スクリーンネームで重複チェックがいるかも
-      accounts[0] = res
-      console.log(accounts)
-      store.set("accounts", accounts)
+      const client = new Twitter({
+        consumer_key: process.env.consumer_key,
+        consumer_secret: process.env.consumer_secret,
+        access_token_key: res.token,
+        access_token_secret: res.tokenSecret,
+      })
+      client.get("account/verify_credentials").then((user) => {
+        res.user = user.screen_name
+        // TODO: マルチアカウント対応
+        // TODO: スクリーンネームで重複チェックがいる
+        accounts[0] = res
+        store.set("accounts", accounts)
+        for (const win of windows) {
+          win.webContents.send("getTokens", accounts)
+        }
+      })
 
       authWindow.close()
-
-      for (const win of windows) {
-        win.webContents.send("getTokens", accounts)
-      }
     })
     .catch((err) => {
       console.log("err" + JSON.stringify(err))

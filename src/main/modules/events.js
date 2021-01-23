@@ -2,15 +2,15 @@ import { mainWindow, preferenceWindow, openAuthWindow } from "./windows"
 import { store } from "./store"
 const { ipcMain } = require("electron")
 
-// Vue Ready
-ipcMain.on("postWindowReady", () => {
-  const accounts = store.get("accounts")
-  // トークン送信
-  mainWindow.webContents.send("getTokens", accounts)
+ipcMain.on("postWindow-ready", () => {
+  mainWindow.webContents.send("getTokens", store.get("accounts"))
 })
+ipcMain.on("postWindow-posted", () => {
+  mainWindow.hide()
+})
+
 ipcMain.on("preferenceWindowReady", () => {
-  const accounts = store.get("accounts")
-  preferenceWindow.webContents.send("getTokens", accounts)
+  preferenceWindow.webContents.send("getTokens", store.get("accounts"))
 })
 
 // ログイン認証
