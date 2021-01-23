@@ -57,10 +57,11 @@ function openPreference() {
   })
   winPreference.loadURL(winURL + "#preference")
 }
+let tray = null
 // ElectronReady
 app.on("ready", () => {
   createWindow()
-  const tray = new Tray("static/hoge.png")
+  tray = new Tray("static/256x256.png")
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "投稿",
@@ -100,7 +101,7 @@ ipcMain.on("ready", () => {
 })
 
 // ログイン認証
-ipcMain.on("perform-action", () => {
+ipcMain.on("authenticate", () => {
   const info = {
     key: process.env.consumer_key,
     secret: process.env.consumer_secret,
@@ -114,7 +115,7 @@ ipcMain.on("perform-action", () => {
     .then((res) => {
       const accounts = store.get("accounts") || []
       // スクリーンネームで重複チェックがいるかも
-      accounts.push(res)
+      accounts[0] = res
       store.set("accounts", accounts)
       authWindow.close()
     })
@@ -124,7 +125,7 @@ ipcMain.on("perform-action", () => {
 })
 
 // メニューバー無効化
-// Menu.setApplicationMenu(null)
+Menu.setApplicationMenu(null)
 
 /**
  * Auto Updater
