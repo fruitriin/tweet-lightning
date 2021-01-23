@@ -1,7 +1,9 @@
 <template>
   <div>
-    <img :src="user.profile_image_url_https" />
-    <label for="">{{ user.name }}(@{{ user.screen_name }})</label>
+    <div v-if="user">
+      <img :src="user.profile_image_url_https" />
+      <label for="">{{ user.name }}(@{{ user.screen_name }})</label>
+    </div>
     <form @submit.prevent="submit" @keyup.ctrl.enter="submit">
       <textarea v-model="message"></textarea>
       <input type="submit" />
@@ -18,14 +20,6 @@
 <script>
 const Twitter = require('twitter-lite')
 require('dotenv').config()
-var client = null
-var keys = {
-  consumer_key: process.env.consumer_key,
-  consumer_secret: process.env.consumer_secret,
-  access_token_key: process.env.access_token,
-  access_token_secret: process.env.access_token_secret
-}
-client = new Twitter(keys)
 
 export default {
   data () {
@@ -33,14 +27,24 @@ export default {
       message: '',
       user: null,
       debug: '',
-      isDebug: true
+      isDebug: true,
+      client: null
     }
   },
   mounted () {
-    console.log(this.$electron)
-    this.$electron.ipcRenderer.send('perform-action')
-    client.get('account/verify_credentials').then(res => {
-      this.user = res
+    this.$electron.ipcRenderer.send('ready')
+    this.$electron.ipcRenderer.on('tokens', (event, tokens) => {
+      console.log(tokens)
+      this.client = new Twitter({
+        consumer_key: process.env.consumer_key,
+        consumer_secret: process.env.consumer_secret,
+        access_token_key: tokens[0].token,
+        access_token_secret: tokens[0].tokenSecret
+      })
+      // this.$electron.ipcRenderer.send('perform-action')
+      this.client.get('account/verify_credentials').then(res => {
+        this.user = res
+      })
     })
   },
 
@@ -50,7 +54,7 @@ export default {
         this.debug = this.message
         return
       }
-      client
+      this.client
         .post('statuses/update', { status: this.message })
         .then(tweet => {
           this.message = ''

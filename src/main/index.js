@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, ipcMain, BrowserWindow, Tray, Menu } from 'electron'
+require('dotenv').config()
 const Store = require('electron-store')
 const store = new Store()
 const auth = require('oauth-electron-twitter')
@@ -35,6 +36,7 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
+  // 閉じるボタンでウィンドウを非表示
   mainWindow.on('close', (e) => {
     e.preventDefault()
     mainWindow.hide()
@@ -45,6 +47,7 @@ function createWindow () {
   })
 }
 
+// 設定画面を開く
 function openPreference () {
   const winPreference = new BrowserWindow({
     webPreferences: {
@@ -53,6 +56,7 @@ function openPreference () {
   })
   winPreference.loadURL(winURL + '#preference')
 }
+// ElectronReady
 app.on('ready', () => {
   createWindow()
   const tray = new Tray('static/hoge.png')
@@ -77,27 +81,30 @@ app.on('activate', () => {
   }
 })
 
+// Vueがスタンバイできたら
+ipcMain.on('ready', () => {
+  const accounts = store.get('accounts')
+  // トークン更新
+  mainWindow.webContents.send(
+    'tokens',
+    accounts
+  )
+})
+
+// ログイン認証
 ipcMain.on('perform-action', () => {
-  // ... レンダラーに代わってアクションを行う
   const info = {
     key: process.env.consumer_key,
     secret: process.env.consumer_secret
   }
 
-  const authWindow = new BrowserWindow(
-    {
-      webPreferences:
-      {
-        nodeIntegration: false
-      }
-    }
-  )
-  console.log(authWindow.webContents.session)
+  const authWindow = new BrowserWindow()
   authWindow.webContents.session.clearCache()
   authWindow.webContents.session.clearStorageData()
   auth.login(info, authWindow)
     .then(res => {
       const accounts = store.get('accounts') || []
+      // スクリーンネームで重複チェックがいるかも
       accounts.push(res)
       store.set('accounts', accounts)
       authWindow.close()
