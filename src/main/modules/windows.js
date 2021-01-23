@@ -1,5 +1,5 @@
 import { store } from "./store"
-const { BrowserWindow } = require("electron")
+const { BrowserWindow, ipcMain } = require("electron")
 const path = require("path")
 const auth = require("oauth-electron-twitter")
 
@@ -24,7 +24,7 @@ function createWindow() {
     },
   })
 
-  mainWindow.loadURL(winURL)
+  mainWindow.loadURL(winURL + "#post")
 
   // 閉じるボタンでウィンドウを非表示
   mainWindow.on("close", (e) => {
@@ -37,14 +37,15 @@ function createWindow() {
   })
 }
 
+let preferenceWindow = null
 // 設定画面を開く
 function openPreference() {
-  const winPreference = new BrowserWindow({
+  preferenceWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
     },
   })
-  winPreference.loadURL(winURL + "#preference")
+  preferenceWindow.loadURL(winURL + "#preference")
 }
 
 function openAuthWindow() {
@@ -62,6 +63,7 @@ function openAuthWindow() {
       // スクリーンネームで重複チェックがいるかも
       accounts[0] = res
       store.set("accounts", accounts)
+      ipcMain.send("tokenRefresh")
       authWindow.close()
     })
     .catch((err) => {
@@ -69,4 +71,10 @@ function openAuthWindow() {
     })
 }
 
-export { mainWindow, createWindow, openPreference, openAuthWindow }
+export {
+  mainWindow,
+  preferenceWindow,
+  createWindow,
+  openPreference,
+  openAuthWindow,
+}

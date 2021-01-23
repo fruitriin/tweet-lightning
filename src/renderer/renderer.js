@@ -10,7 +10,10 @@ const router = new Router({
   routes: routes,
 })
 
-if (!process.env.IS_WEB) Vue.use(require("vue-electron"))
+if (!process.env.IS_WEB) {
+  Vue.use(require("vue-electron"))
+  Vue.use(require("./plugins/electronRenderer"))
+}
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
