@@ -1,12 +1,12 @@
-import { mainWindow, preferenceWindow, openAuthWindow } from "./windows"
+import { postWindow, preferenceWindow, openAuthWindow } from "./windows"
 import { store } from "./store"
 const { ipcMain } = require("electron")
 
 ipcMain.on("postWindow-ready", () => {
-  mainWindow.webContents.send("getTokens", store.get("accounts"))
+  postWindow.webContents.send("getTokens", store.get("accounts"))
 })
 ipcMain.on("postWindow-posted", () => {
-  mainWindow.hide()
+  postWindow.hide()
 })
 
 ipcMain.on("preferenceWindowReady", () => {
@@ -18,6 +18,6 @@ ipcMain.on("authenticate", () => {
   openAuthWindow()
 })
 ipcMain.on("tokenRefresh", () => {
-  if (mainWindow !== null) mainWindow.webContents.send("getTokens")
+  if (postWindow !== null) postWindow.webContents.send("getTokens")
   if (preferenceWindow !== null) preferenceWindow.webContents.send("getTokens")
 })

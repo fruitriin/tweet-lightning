@@ -1,9 +1,10 @@
 "use strict"
 
 import { app, Menu } from "electron"
-import { createWindow, mainWindow } from "./modules/windows"
+import { createPostWindow, postWindow } from "./modules/windows"
 require("./modules/events")
 require("./modules/tray")
+require("./modules/globalShortcuts")
 require("dotenv").config()
 
 const path = require("path")
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV !== "development") {
 }
 
 app.on("ready", () => {
-  createWindow()
+  createPostWindow()
 })
 
 app.on("window-all-closed", () => {
@@ -26,8 +27,8 @@ app.on("window-all-closed", () => {
 })
 
 app.on("activate", () => {
-  if (mainWindow === null) {
-    createWindow()
+  if (postWindow === null) {
+    createPostWindow()
   }
 })
 

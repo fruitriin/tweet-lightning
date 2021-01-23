@@ -1,4 +1,4 @@
-import { mainWindow, openPreference } from "./windows"
+import { postWindow, openPreference } from "./windows"
 const { app, Menu, Tray } = require("electron")
 
 let tray = null
@@ -9,7 +9,7 @@ app.on("ready", () => {
     {
       label: "投稿",
       click: () => {
-        mainWindow.show()
+        postWindow.show()
       },
     },
     {

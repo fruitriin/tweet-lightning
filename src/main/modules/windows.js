@@ -5,14 +5,14 @@ const path = require("path")
 const auth = require("oauth-electron-twitter")
 
 const windows = []
-let mainWindow
+let postWindow
 const winURL =
   process.env.NODE_ENV === "development"
     ? `http://localhost:9080`
     : path.resolve("file://", __dirname, "/index.html")
 
-function createWindow() {
-  mainWindow = new BrowserWindow({
+function createPostWindow() {
+  postWindow = new BrowserWindow({
     useContentSize: true,
     width: 300,
     height: 200,
@@ -22,18 +22,18 @@ function createWindow() {
       nodeIntegration: true,
     },
   })
-  windows.push(mainWindow)
+  windows.push(postWindow)
 
-  mainWindow.loadURL(winURL + "#post")
+  postWindow.loadURL(winURL + "#post")
 
   // 閉じるボタンでウィンドウを非表示
-  mainWindow.on("close", (e) => {
+  postWindow.on("close", (e) => {
     e.preventDefault()
-    mainWindow.hide()
+    postWindow.hide()
   })
 
-  mainWindow.on("closed", () => {
-    mainWindow = null
+  postWindow.on("closed", () => {
+    postWindow = null
   })
 }
 
@@ -86,9 +86,9 @@ function openAuthWindow() {
 }
 
 export {
-  mainWindow,
+  postWindow,
   preferenceWindow,
-  createWindow,
+  createPostWindow,
   openPreference,
   openAuthWindow,
 }

@@ -5,7 +5,7 @@
       <label for>{{ user.name }}(@{{ user.screen_name }})</label>
     </div>
     <form @submit.prevent="submit" @keyup.ctrl.enter="submit">
-      <textarea v-model="message" />
+      <textarea ref="textarea" v-model="message" />
       <input type="submit" />
     </form>
     <pre>{{ debug }}</pre>
@@ -28,6 +28,9 @@ export default {
   },
   created() {
     this.$renderer.send("postWindow-ready")
+    this.$renderer.on("show", () => {
+      this.$refs.textarea.focus()
+    })
     this.$renderer.on("getTokens", (event, tokens) => {
       this.client = new Twitter({
         consumer_key: process.env.consumer_key,
@@ -39,6 +42,9 @@ export default {
         this.user = res
       })
     })
+  },
+  mounted(){
+    this.$refs.textarea.focus()
   },
   methods: {
     submit() {
