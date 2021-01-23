@@ -1,8 +1,9 @@
 import { store } from "./store"
-const { BrowserWindow, ipcMain } = require("electron")
+const { BrowserWindow } = require("electron")
 const path = require("path")
 const auth = require("oauth-electron-twitter")
 
+const windows = []
 let mainWindow
 const winURL =
   process.env.NODE_ENV === "development"
@@ -23,6 +24,7 @@ function createWindow() {
       nodeIntegration: true,
     },
   })
+  windows.push(mainWindow)
 
   mainWindow.loadURL(winURL + "#post")
 
@@ -46,6 +48,7 @@ function openPreference() {
     },
   })
   preferenceWindow.loadURL(winURL + "#preference")
+  windows.push(preferenceWindow)
 }
 
 function openAuthWindow() {
@@ -62,9 +65,14 @@ function openAuthWindow() {
       const accounts = store.get("accounts") || []
       // スクリーンネームで重複チェックがいるかも
       accounts[0] = res
+      console.log(accounts)
       store.set("accounts", accounts)
-      ipcMain.send("tokenRefresh")
+
       authWindow.close()
+
+      for (const win of windows) {
+        win.webContents.send("getTokens", accounts)
+      }
     })
     .catch((err) => {
       console.log("err" + JSON.stringify(err))

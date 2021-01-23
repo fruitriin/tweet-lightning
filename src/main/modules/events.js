@@ -19,6 +19,5 @@ ipcMain.on("authenticate", () => {
 })
 ipcMain.on("tokenRefresh", () => {
   if (mainWindow !== null) mainWindow.webContents.send("getTokens")
-  if (preferenceWindow !== null)
-    preferenceWindow.webContents.send("getTokens")
+  if (preferenceWindow !== null) preferenceWindow.webContents.send("getTokens")
 })
