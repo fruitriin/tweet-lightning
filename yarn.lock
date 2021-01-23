@@ -6560,10 +6560,9 @@ oauth-1.0a@^2.2.4:
   resolved "https://registry.yarnpkg.com/oauth-1.0a/-/oauth-1.0a-2.2.6.tgz#eadbccdb3bceea412d24586e6f39b2b412f0e491"
   integrity sha512-6bkxv3N4Gu5lty4viIcIAnq5GbxECviMBeKR3WX/q87SPQ8E8aursPZUtsXDnxCs787af09WPRBLqYrf/lwoYQ==
 
-oauth-electron-twitter@^1.0.121:
+oauth-electron-twitter@fruitriin/oauth-electron-twitter:
   version "1.0.121"
-  resolved "https://registry.yarnpkg.com/oauth-electron-twitter/-/oauth-electron-twitter-1.0.121.tgz#ea3ac4ff53df4dfc0a0241d6ffa8cc9a157bbbf7"
-  integrity sha512-7TlGWErJ78Ks2q5v06YiwFJlyufC9LmNoIJgDOCJL3j1soa6Kt/iGVB3xm6gLi2kDBupWXnMK2O/kp/jL9CJbg==
+  resolved "https://codeload.github.com/fruitriin/oauth-electron-twitter/tar.gz/eb9548ede1fc7fadce67070ea52ed6ab4a173741"
   dependencies:
     oauth "^0.9.14"
     query-string "^6.13.8"
