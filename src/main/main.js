@@ -2,8 +2,8 @@
 
 import { app, Menu } from "electron"
 import { createWindow, mainWindow } from "./modules/windows"
-import { createTray } from "./modules/tray"
 require("./modules/events")
+require("./modules/tray")
 require("dotenv").config()
 
 const path = require("path")
@@ -15,11 +15,8 @@ if (process.env.NODE_ENV !== "development") {
   global.__static = path.join(__dirname, "/static").replace(/\\/g, "\\\\")
 }
 
-let tray = null
-// ElectronReady
 app.on("ready", () => {
   createWindow()
-  tray = createTray()
 })
 
 app.on("window-all-closed", () => {
@@ -34,8 +31,6 @@ app.on("activate", () => {
   }
 })
 
-
-// メニューバー無効化
 Menu.setApplicationMenu(null)
 
 /**
