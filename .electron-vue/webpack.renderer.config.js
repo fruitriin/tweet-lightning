@@ -11,6 +11,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const VueAutoRoutingPlugin = require('vue-auto-routing/lib/webpack-plugin')
 
 /**
  * List of node_modules to include in webpack bundle
@@ -135,7 +136,14 @@ let rendererConfig = {
         : false
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new VueAutoRoutingPlugin({
+      // Path to the directory that contains your page components.
+      pages: 'src/renderer/pages',
+
+      // A string that will be added to importing component path (default @/pages/).
+      importPrefix: '@/pages/'
+    })
   ],
   output: {
     filename: '[name].js',
