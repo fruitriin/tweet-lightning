@@ -8,6 +8,10 @@ ipcMain.on("postWindow-ready", () => {
 ipcMain.on("postWindow-posted", () => {
   postWindow.hide()
 })
+ipcMain.on("postWindow-close", () => {
+  postWindow.hide()
+})
+
 
 ipcMain.on("preferenceWindowReady", () => {
   preferenceWindow.webContents.send("getTokens", store.get("accounts"))

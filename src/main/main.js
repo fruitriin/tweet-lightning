@@ -32,7 +32,7 @@ app.on("activate", () => {
   }
 })
 
-// Menu.setApplicationMenu(null)
+Menu.setApplicationMenu(null)
 
 /**
  * Auto Updater
