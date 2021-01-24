@@ -9,7 +9,7 @@ let postWindow
 const winURL =
   process.env.NODE_ENV === "development"
     ? `http://localhost:9080`
-    : path.resolve("file://", __dirname, "/index.html")
+    : path.join("file://", __dirname, "/index.html")
 
 function createPostWindow() {
   postWindow = new BrowserWindow({

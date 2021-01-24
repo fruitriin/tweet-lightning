@@ -7,14 +7,7 @@ require("./modules/events")
 require("./modules/tray")
 require("./modules/globalShortcuts")
 require("dotenv").config()
-const path = require("path")
-/**
- * Set `__static` path to static files in production
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
- */
-if (process.env.NODE_ENV !== "development") {
-  global.__static = path.join(__dirname, "/static").replace(/\\/g, "\\\\")
-}
+
 
 app.on("ready", () => {
   const accounts = store.get("accounts") || []
