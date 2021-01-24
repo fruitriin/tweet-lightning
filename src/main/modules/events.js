@@ -12,9 +12,15 @@ ipcMain.on("postWindow-close", () => {
   postWindow.hide()
 })
 
-
 ipcMain.on("preferenceWindowReady", () => {
   preferenceWindow.webContents.send("getTokens", store.get("accounts"))
+})
+
+ipcMain.on("deleteAccount", (_, index) => {
+  const accounts = store.get("accounts") || []
+  accounts.splice(index, 1)
+  preferenceWindow.webContents.send("getTokens", accounts)
+  store.set("accounts", accounts)
 })
 
 // ログイン認証

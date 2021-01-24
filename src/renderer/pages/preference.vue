@@ -5,6 +5,7 @@
       認証済みアカウント
       <div v-for="(token, key) in tokens" :key="key">
         [{{ key + 1 }}] {{ token.user }}
+        <button @click="deleteAccount(key)">-</button>
       </div>
     </div>
 
@@ -33,6 +34,9 @@ export default {
   methods: {
     addAuth() {
       this.$renderer.send("authenticate")
+    },
+    deleteAccount(index) {
+      this.$renderer.send("deleteAccount", index)
     },
   },
 }
