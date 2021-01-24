@@ -1,3 +1,7 @@
 const Store = require("electron-store")
 const store = new Store()
 export { store }
+/**
+ * accounts
+ * preference
+ */

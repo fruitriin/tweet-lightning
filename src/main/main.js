@@ -1,12 +1,12 @@
 "use strict"
 
 import { app, Menu } from "electron"
-import { createPostWindow, postWindow } from "./modules/windows"
+import { createPostWindow, postWindow, openPreference } from "./modules/windows"
+import { store } from "./modules/store"
 require("./modules/events")
 require("./modules/tray")
 require("./modules/globalShortcuts")
 require("dotenv").config()
-
 const path = require("path")
 /**
  * Set `__static` path to static files in production
@@ -17,12 +17,12 @@ if (process.env.NODE_ENV !== "development") {
 }
 
 app.on("ready", () => {
-  createPostWindow()
-})
-
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit()
+  const accounts = store.get("accounts") || []
+  if (accounts.length > 0) {
+    createPostWindow()
+  } else {
+    createPostWindow()
+    openPreference()
   }
 })
 

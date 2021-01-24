@@ -1,6 +1,6 @@
 import { store } from "./store"
 import Twitter from "twitter-lite"
-const { BrowserWindow } = require("electron")
+const { app, dialog, BrowserWindow } = require("electron")
 const path = require("path")
 const auth = require("oauth-electron-twitter")
 
@@ -18,6 +18,7 @@ function createPostWindow() {
     height: 200,
     skipTaskbar: true,
     alwaysOnTop: true,
+    show: false,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -47,6 +48,23 @@ function openPreference() {
   })
   preferenceWindow.loadURL(winURL + "#preference")
   windows.push(preferenceWindow)
+
+  // アカウント認証されずにウィンドウを閉じられたらダイアログを出す
+  preferenceWindow.on("close", (e) => {
+    const accounts = store.get("accounts") || []
+    if (accounts.length === 0) {
+      const selected = dialog.showMessageBoxSync(preferenceWindow, {
+        type: "question",
+        buttons: ["Yes", "No"],
+        message: "アカウントが一つも認証されていません。終了しますか？",
+      })
+      if (selected === 1) {
+        e.preventDefault()
+      } else {
+        app.exit()
+      }
+    }
+  })
 }
 
 function openAuthWindow() {
