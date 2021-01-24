@@ -76,7 +76,7 @@
     "del": "^3.0.0",
     "devtron": "^1.4.0",
     "electron": "^11.0.4",
-    "electron-builder": "^20.19.2",
+    "electron-builder": "^22.9.1",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-store": "^6.0.1",
