@@ -18,7 +18,7 @@ app.on("ready", () => {
         openPreference()
       },
     },
-    { label: "終了", click: () => app.quite() },
+    { label: "終了", click: () => app.exit() },
   ])
   tray.setToolTip("This is my application.")
   tray.setContextMenu(contextMenu)
