@@ -76,7 +76,10 @@ if (process.env.NODE_ENV === 'production') {
     // new MinifyPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
-    })
+    }),
+    new webpack.EnvironmentPlugin({
+      ...require("dotenv").config().parsed
+    }),
   )
 }
 
