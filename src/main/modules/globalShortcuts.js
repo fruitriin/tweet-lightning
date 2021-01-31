@@ -1,15 +1,30 @@
+import { accounts } from "./store"
 import { postWindow } from "./windows"
 const { app, globalShortcut } = require("electron")
 
 app.whenReady().then(() => {
-  // 'CommandOrControl+X' ショートカットのリスナーを登録します。
-  globalShortcut.register("CmdOrCtrl+Shift+Alt+N", () => {
-    postWindow.webContents.send("show")
-    postWindow.show()
-  })
+  setPostShortcut()
 })
 
+export function setPostShortcut() {
+  globalShortcut.unregisterAll()
+  // accounts[n]shortcut のオブジェクトからキーコンビネーションを生成
+  accounts.get().forEach((acc, index) => {
+    if (acc.shortcut.key !== "") {
+      const keys = []
+      Object.keys(acc.shortcut).forEach((key) => {
+        if (acc.shortcut[key] === true) keys.push(key)
+      })
+
+      const keyCombination = keys.join("+") + "+" + acc.shortcut.key
+      globalShortcut.register(keyCombination, () => {
+        postWindow.webContents.send("show", index)
+        postWindow.show()
+      })
+    }
+  })
+}
+
 app.on("will-quit", () => {
-  // すべてのショートカットを登録解除します。
   globalShortcut.unregisterAll()
 })

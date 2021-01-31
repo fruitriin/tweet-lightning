@@ -6,7 +6,8 @@
     </div>
     <form
       @submit.prevent="submit"
-      @keyup.ctrl.enter="submit"
+      @keyup.ctrl.enter="ctrlSubmit"
+      @keyup.shift.enter="shiftSubmit"
       @keyup.esc="close"
     >
       <textarea ref="textarea" v-model="message" />
@@ -28,6 +29,7 @@ export default {
       user: null,
       debug: "",
       client: null,
+      preference: null,
     }
   },
   created() {
@@ -35,7 +37,10 @@ export default {
     this.$renderer.on("show", () => {
       this.$refs.textarea.focus()
     })
-    this.$renderer.on("getTokens", (event, tokens) => {
+    this.$renderer.on("getPreference", (_, preference) => {
+      this.preference = preference
+    })
+    this.$renderer.on("getTokens", (_, tokens) => {
       this.client = new Twitter({
         consumer_key: process.env.consumer_key,
         consumer_secret: process.env.consumer_secret,
@@ -54,6 +59,14 @@ export default {
     close() {
       this.message = ""
       this.$renderer.send("postWindow-close")
+    },
+    shiftSubmit() {
+      if (this.preference.postShortcut !== "shift") return
+      this.submit()
+    },
+    ctrlSubmit() {
+      if (this.preference.postShortcut !== "ctrl") return
+      this.submit()
     },
     submit() {
       this.client

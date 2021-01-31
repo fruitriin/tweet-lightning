@@ -1,21 +1,36 @@
 import { postWindow, preferenceWindow, openAuthWindow } from "./windows"
-import { store } from "./store"
+import { store, accounts, preference } from "./store"
+import { setPostShortcut } from "./globalShortcuts"
 const { ipcMain } = require("electron")
 
 ipcMain.on("postWindow-ready", () => {
-  postWindow.webContents.send("getTokens", store.get("accounts"))
+  postWindow.webContents.send("getTokens", accounts.get())
+  postWindow.webContents.send("getPreference", preference.get())
 })
 ipcMain.on("postWindow-posted", () => {
-  postWindow.hide()
+  if (preference.get().hideAfterPost) postWindow.hide()
 })
 ipcMain.on("postWindow-close", () => {
   postWindow.hide()
 })
 
 ipcMain.on("preferenceWindowReady", () => {
-  preferenceWindow.webContents.send("getTokens", store.get("accounts"))
+  preferenceWindow.webContents.send("getTokens", accounts.get())
+  preferenceWindow.webContents.send("getPreference", preference.get())
+})
+// 設定変更
+ipcMain.on("changePreference", (_, { preference: pref, accounts: acc }) => {
+  preference.set(pref)
+  accounts.set(acc)
+
+  // 設定の反映
+  postWindow.setAlwaysOnTop(preference.get().alwaysOnTop)
+  setPostShortcut()
+  postWindow.webContents.send("getPreference", preference.get())
+  preferenceWindow.webContents.send("getPreference", preference.get())
 })
 
+// アカウント削除
 ipcMain.on("deleteAccount", (_, index) => {
   const accounts = store.get("accounts") || []
   accounts.splice(index, 1)

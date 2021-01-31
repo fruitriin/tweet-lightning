@@ -1,4 +1,4 @@
-import { store } from "./store"
+import { store, preference } from "./store"
 import Twitter from "twitter-lite"
 const { app, dialog, BrowserWindow } = require("electron")
 const path = require("path")
@@ -17,7 +17,7 @@ function createPostWindow() {
     width: 300,
     height: 200,
     skipTaskbar: true,
-    alwaysOnTop: true,
+    alwaysOnTop: preference.get().alwaysOnTop,
     show: false,
     webPreferences: {
       nodeIntegration: true,
