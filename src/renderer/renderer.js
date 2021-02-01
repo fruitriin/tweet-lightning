@@ -1,5 +1,4 @@
 import Vue from "vue"
-import axios from "axios"
 
 import App from "./App"
 import Router from "vue-router"
@@ -14,7 +13,6 @@ if (!process.env.IS_WEB) {
   Vue.use(require("vue-electron"))
   Vue.use(require("./plugins/electronRenderer"))
 }
-Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

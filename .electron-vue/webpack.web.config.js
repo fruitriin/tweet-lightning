@@ -5,7 +5,7 @@ process.env.BABEL_ENV = 'web'
 const path = require('path')
 const webpack = require('webpack')
 
-const MinifyPlugin = require("babel-minify-webpack-plugin")
+const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -130,8 +130,11 @@ let webConfig = {
 if (process.env.NODE_ENV === 'production') {
   webConfig.devtool = ''
 
+  webConfig.optimization = {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  }
   webConfig.plugins.push(
-    new MinifyPlugin(),
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),

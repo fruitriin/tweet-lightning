@@ -52,7 +52,6 @@
     }
   },
   "dependencies": {
-    "axios": "^0.18.0",
     "twitter-lite": "^0.14.0",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
@@ -63,7 +62,6 @@
     "babel-core": "6.26.3",
     "babel-eslint": "8.2.6",
     "babel-loader": "7.1.5",
-    "babel-minify-webpack-plugin": "0.3.1",
     "babel-plugin-transform-runtime": "6.23.0",
     "babel-preset-env": "1.7.0",
     "babel-preset-stage-0": "6.24.1",
@@ -99,6 +97,7 @@
     "prettier": "2.2.1",
     "sass-loader": "7.3.1",
     "style-loader": "0.23.1",
+    "terser-webpack-plugin": "^4.2.3",
     "url-loader": "1.1.2",
     "vue-auto-routing": "1.0.1",
     "vue-eslint-parser": "7.4.1",
