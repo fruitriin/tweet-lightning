@@ -97,7 +97,7 @@
     "prettier": "2.2.1",
     "sass-loader": "7.3.1",
     "style-loader": "0.23.1",
-    "terser-webpack-plugin": "4.2.3",
+    "terser-webpack-plugin": "5.1.1",
     "url-loader": "1.1.2",
     "vue-auto-routing": "1.0.1",
     "vue-eslint-parser": "7.4.1",
