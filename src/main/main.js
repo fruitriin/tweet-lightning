@@ -8,7 +8,6 @@ require("./modules/tray")
 require("./modules/globalShortcuts")
 require("dotenv").config()
 
-
 app.on("ready", () => {
   const accounts = store.get("accounts") || []
   if (accounts.length > 0) {

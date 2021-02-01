@@ -2,7 +2,7 @@
   <div>
     <div v-if="user">
       <img :src="user.profile_image_url_https" />
-      <label for>{{ user.name }}(@{{ user.screen_name }})</label>
+      <label for>@{{ user.screen_name }}</label>
     </div>
     <form
       @submit.prevent="submit"

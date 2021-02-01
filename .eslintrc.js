@@ -1,14 +1,14 @@
 module.exports = {
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: "module",
   },
-  "plugins": ["prettier"],
-  
-  "extends": [
-    'plugin:vue/recommended',
+  plugins: ["prettier"],
+
+  extends: [
+    "plugin:vue/recommended",
     "standard",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
   ],
   rules: {
     // allow paren-less arrow functions
@@ -22,7 +22,14 @@ module.exports = {
     // do not use var definition
     "no-var": "error",
     // git priority to prettier
-    "prettier/prettier": ["error", { semi: false, trailingComma: "es5" }],
+    "prettier/prettier": [
+      "error",
+      {
+        semi: false,
+        trailingComma: "es5",
+        htmlWhitespaceSensitivity: "ignore",
+      },
+    ],
     "space-before-function-paren": "off",
     "object-curly-spacing": "off",
     indent: "off",
