@@ -1,25 +1,26 @@
-# tweet-lightning
+# TweetLightning
 
-> An electron-vue project
+シュッと投稿できるTwitterクライアント
 
+## コントリビュートメモ
 #### Build Setup
 
 ``` bash
 # install dependencies
-npm install
+yarn install
 
 # serve with hot reload at localhost:9080
-npm run dev
-
-# build electron application for production
-npm run build
-
-
-# lint all JS/Vue component files in `src/`
-npm run lint
+yarn dev
 
 ```
+## 使用許諾 - License
+Copyright (c) FruitRiin. All rights reserved.  
+LICENSE.txtに従ってライセンスします。  
+Licensed under the LICENSE.txt 
 
----
+Notice:  
+TweetLightningはソースコードが公開されていますが、  
+複製及び派生物から生成されるバイナリの再配布、販売を認めるようなオープンソースソフトウェアではありません
 
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[45a3e22](https://github.com/SimulatedGREG/electron-vue/tree/45a3e224e7bb8fc71909021ccfdcfec0f461f634) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+## 依存ライブラリのライセンスについての表記
+[https://raw\.githubusercontent\.com/fruitriin/tweet\-lightning/master/ThirdPartyNotice\.txt](https://raw.githubusercontent.com/fruitriin/tweet-lightning/master/ThirdPartyNotice.txt)
