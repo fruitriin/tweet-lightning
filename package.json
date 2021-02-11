@@ -42,7 +42,14 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "icon": "build/icons/icon.icns",
+      "target": "pkg"
+    },
+    "extraResources": [
+      "./licenses"
+    ],
+    "pkg": {
+      "license": "license.txt"
     },
     "win": {
       "icon": "build/icons/icon.ico"
