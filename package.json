@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "FruitRiin",
   "description": "An electron-vue project",
-  "license": null,
+  "license": "SEE LICENSE IN LICENSE.txt",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
