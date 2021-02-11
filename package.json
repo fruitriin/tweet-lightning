@@ -56,7 +56,8 @@
     },
     "nsis": {
       "unicode": true,
-      "license": "LICENSE_SJIS.txt"
+      "license": "LICENSE_SJIS.txt",
+      "artifactName": "${productName}_Setup_${version}.${ext}"
     },
     "linux": {
       "icon": "build/icons"
