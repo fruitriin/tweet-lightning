@@ -1,8 +1,8 @@
 {
   "name": "tweet-lightning",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "FruitRiin",
-  "description": "An electron-vue project",
+  "description": "Twitter Client for post",
   "license": "SEE LICENSE IN LICENSE.txt",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -46,6 +46,10 @@
     },
     "win": {
       "icon": "build/icons/icon.ico"
+    },
+    "nsis": {
+      "unicode": true,
+      "license": "LICENSE_SJIS.txt"
     },
     "linux": {
       "icon": "build/icons"
