@@ -110,7 +110,7 @@
     "oauth-electron-twitter": "fruitriin/oauth-electron-twitter",
     "prettier": "2.2.1",
     "sass-loader": "7.3.1",
-    "style-loader": "0.23.1",
+    "style-loader": "2.0.0",
     "terser-webpack-plugin": "4.2.3",
     "url-loader": "1.1.2",
     "vue-auto-routing": "1.0.1",
