@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "nucleus-nodejs": "^3.0.8",
-    "twitter-lite": "^0.14.0",
+    "twitter-lite": "^1.0.0",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1"
