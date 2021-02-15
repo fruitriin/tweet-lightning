@@ -1,4 +1,4 @@
-import { store, preference } from "./store"
+import { store, preference, shortcutDefault } from "./store"
 import Twitter from "twitter-lite"
 const { app, dialog, BrowserWindow } = require("electron")
 const path = require("path")
@@ -87,9 +87,20 @@ function openAuthWindow() {
       })
       client.get("account/verify_credentials").then((user) => {
         res.user = user.screen_name
-        // TODO: マルチアカウント対応
-        // TODO: スクリーンネームで重複チェックがいる
-        accounts[0] = res
+
+        let needPush = true
+        for (const account of accounts) {
+          if (account.user === res.user) {
+            account.user = res
+            needPush = false
+          }
+        }
+        if (needPush) {
+          res.shortcut = shortcutDefault
+          console.log(res)
+          accounts.push(res)
+        }
+
         store.set("accounts", accounts)
         for (const win of windows) {
           win.webContents.send("getTokens", accounts)

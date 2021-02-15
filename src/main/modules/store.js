@@ -2,18 +2,20 @@ const Store = require("electron-store")
 const store = new Store()
 export { store }
 
+const shortcutDefault = {
+  Shift: false,
+  Ctrl: false,
+  Alt: false,
+  Super: false,
+  key: "",
+}
+
 const accounts = {
   get() {
     const accounts = store.get("accounts") || []
     return accounts.map((a) => {
       if (!a.shortcut) {
-        a.shortcut = {
-          Shift: false,
-          Ctrl: false,
-          Alt: false,
-          Super: false,
-          key: "",
-        }
+        a.shortcut = shortcutDefault
       }
       return a
     })
@@ -39,4 +41,4 @@ const preference = {
   },
 }
 
-export { accounts, preference }
+export { accounts, preference, shortcutDefault }

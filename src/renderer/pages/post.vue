@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-if="user">
-      <img :src="user.profile_image_url_https" />
-      <label for>@{{ user.screen_name }}</label>
+    <div v-if="users.length > 0">
+      <img :src="users[index].profile_image_url_https" />
+      <label for>@{{ users[index].screen_name }}</label>
     </div>
     <form
       @submit.prevent="submit"
@@ -26,30 +26,36 @@ export default {
   data() {
     return {
       message: "",
-      user: null,
+      users: [],
       debug: "",
-      client: null,
+      index: 0,
+      clients: [],
       preference: null,
     }
   },
   created() {
     this.$renderer.send("postWindow-ready")
-    this.$renderer.on("show", () => {
+    this.$renderer.on("show", (_, index) => {
+      this.index = index
       this.$refs.textarea.focus()
     })
     this.$renderer.on("getPreference", (_, preference) => {
       this.preference = preference
     })
-    this.$renderer.on("getTokens", (_, tokens) => {
-      this.client = new Twitter({
-        consumer_key: process.env.consumer_key,
-        consumer_secret: process.env.consumer_secret,
-        access_token_key: tokens[0].token,
-        access_token_secret: tokens[0].tokenSecret,
+    this.$renderer.on("getTokens", async (_, tokens) => {
+      this.clients = tokens.map((t) => {
+        return new Twitter({
+          consumer_key: process.env.consumer_key,
+          consumer_secret: process.env.consumer_secret,
+          access_token_key: t.token,
+          access_token_secret: t.tokenSecret,
+        })
       })
-      this.client.get("account/verify_credentials").then((res) => {
-        this.user = res
-      })
+      this.users = await Promise.all(
+        this.clients.map((client) => {
+          return client.get("account/verify_credentials")
+        })
+      )
     })
   },
   mounted() {
@@ -69,7 +75,7 @@ export default {
       this.submit()
     },
     submit() {
-      this.client
+      this.clients[this.index]
         .post("statuses/update", { status: this.message })
         .then((tweet) => {
           this.message = ""
