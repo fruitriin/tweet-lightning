@@ -1,10 +1,10 @@
-const Store = require("electron-store");
-const store = new Store();
-export { store };
+const Store = require("electron-store")
+const store = new Store()
+export { store }
 
 const accounts = {
   get() {
-    const accounts = store.get("accounts") || [];
+    const accounts = store.get("accounts") || []
     return accounts.map((a) => {
       if (!a.shortcut) {
         a.shortcut = {
@@ -13,30 +13,30 @@ const accounts = {
           Alt: false,
           Super: false,
           key: "",
-        };
+        }
       }
-      return a;
-    });
+      return a
+    })
   },
   set(newValue) {
-    store.set("accounts", newValue);
+    store.set("accounts", newValue)
   },
-};
+}
 
 const preference = {
   get() {
     // 設定の初期化
-    const preference = store.get("preference") || {};
+    const preference = store.get("preference") || {}
     const defaultPreference = {
       alwaysOnTop: true,
       hideAfterPost: true,
       postShortcut: "ctrl",
-    };
-    return Object.assign({}, defaultPreference, preference);
+    }
+    return Object.assign({}, defaultPreference, preference)
   },
   set(newValue) {
-    store.set("preference", newValue);
+    store.set("preference", newValue)
   },
-};
+}
 
-export { accounts, preference };
+export { accounts, preference }
