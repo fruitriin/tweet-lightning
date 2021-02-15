@@ -15,6 +15,21 @@ if (!process.env.IS_WEB) {
 }
 Vue.config.productionTip = false
 
+const Nucleus = require("nucleus-nodejs")
+Nucleus.init("60258c87bcf16266e1db001d")
+Vue.config.errorHandler = (err, vm, info) => {
+  console.error(`Captured in Vue.config.errorHandler: ${info}`, err)
+  Nucleus.trackError("Render errorHandler", err)
+}
+window.addEventListener("error", (event) => {
+  console.error("Captured in error EventListener", event.error)
+  Nucleus.trackError("Render eventHandler", event.error)
+})
+window.addEventListener("unhandledrejection", (event) => {
+  console.error("Captured in unhandledrejection EventListener", event.reason)
+  Nucleus.trackError("Render unhandledrejection EventListener", event.reason)
+})
+
 /* eslint-disable no-new */
 new Vue({
   components: { App },
