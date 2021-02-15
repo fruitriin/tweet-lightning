@@ -64,9 +64,8 @@
     }
   },
   "dependencies": {
-    "node-machine-id": "^1.1.12",
+    "nucleus-nodejs": "^3.0.8",
     "twitter-lite": "^0.14.0",
-    "universal-analytics": "^0.4.23",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1"

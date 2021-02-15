@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import { trackEvent } from "../plugins/analytics"
 const Twitter = require("twitter-lite")
 require("dotenv").config()
 
@@ -75,7 +74,6 @@ export default {
         .then((tweet) => {
           this.message = ""
           this.$renderer.send("postWindow-posted")
-          trackEvent("PostView", "submit")
         })
         .catch((err) => {
           window.alert(JSON.stringify(err))

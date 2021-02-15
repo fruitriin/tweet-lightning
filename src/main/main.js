@@ -8,6 +8,7 @@ require("./modules/tray")
 require("./modules/globalShortcuts")
 require("dotenv").config()
 
+const Nucleus = require("nucleus-nodejs")
 app.on("ready", () => {
   const accounts = store.get("accounts") || []
   if (accounts.length > 0) {
@@ -16,6 +17,9 @@ app.on("ready", () => {
     createPostWindow()
     openPreference()
   }
+
+  Nucleus.init("60258c87bcf16266e1db001d")
+  Nucleus.appStarted()
 })
 
 app.on("activate", () => {
