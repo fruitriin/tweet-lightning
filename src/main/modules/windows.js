@@ -91,7 +91,7 @@ function openAuthWindow() {
         let needPush = true
         for (const account of accounts) {
           if (account.user === res.user) {
-            account.user = res
+            account.user = res.user
             needPush = false
           }
         }
