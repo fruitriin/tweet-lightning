@@ -5,16 +5,18 @@
       <label for>@{{ users[index].screen_name }}</label>
     </div>
     <form
-      @submit.prevent="submit"
+      @submit.prevent="submitAll"
       @keyup.ctrl.enter="ctrlSubmit"
       @keyup.shift.enter="shiftSubmit"
       @keyup.esc="close"
     >
-      <textarea ref="textarea" v-model="message" />
-      <input type="submit" />
+      <div v-for="(message, i) in messages" :key="i">
+        <textarea ref="textarea" v-model="message.text" />
+        <input type="submit" />
+        <p>{{ message.text.length }}</p>
+        <button @click.prevent="expand">↓</button>
+      </div>
     </form>
-    <pre>{{ debug }}</pre>
-    <p>{{ message.length }}</p>
   </div>
 </template>
 
@@ -25,7 +27,7 @@ require("dotenv").config()
 export default {
   data() {
     return {
-      message: "",
+      messages: [{text: ""}],
       users: [],
       debug: "",
       index: 0,
@@ -37,7 +39,7 @@ export default {
     this.$renderer.send("postWindow-ready")
     this.$renderer.on("show", (_, index) => {
       this.index = index
-      this.$refs.textarea.focus()
+      this.$refs.textarea[0].focus()
     })
     this.$renderer.on("getPreference", (_, preference) => {
       this.preference = preference
@@ -59,7 +61,7 @@ export default {
     })
   },
   mounted() {
-    this.$refs.textarea.focus()
+    this.$refs.textarea[0].focus()
   },
   methods: {
     close() {
@@ -68,19 +70,30 @@ export default {
     },
     shiftSubmit() {
       if (this.preference.postShortcut !== "shift") return
-      this.submit()
+      this.submitAll()
     },
     ctrlSubmit() {
       if (this.preference.postShortcut !== "ctrl") return
-      this.submit()
+      this.submitAll()
     },
-    submit() {
-      this.clients[this.index]
-        .post("statuses/update", { status: this.message })
-        .then((tweet) => {
-          this.message = ""
-          this.$renderer.send("postWindow-posted")
-        })
+    expand(){
+      this.messages.push({text: ""})
+    },
+    async submitAll(){
+      const tmpMessages =  [...this.messages]
+      let res = {}
+      for(const message of tmpMessages){
+        res = await this.submit({ status: message.text, in_reply_to_status_id: res.id_str} )
+      }
+      // FIXME: 途中で失敗したときにメッセージが全滅する
+      this.messages.splice(0, this.messages.length, {text: ""})
+      this.$renderer.send("postWindow-posted")
+    },
+    async submit({ status, in_reply_to_status_id}) {
+      const params = {status, auto_populate_reply_metadata : true}
+      if(in_reply_to_status_id) params.in_reply_to_status_id = in_reply_to_status_id
+      return await this.clients[this.index]
+        .post("statuses/update", params)
         .catch((err) => {
           window.alert(JSON.stringify(err))
         })
