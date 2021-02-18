@@ -12,7 +12,7 @@
     >
       <div class="filed post_area" :class="{'mt-3': i !== 0}" v-for="(message, i) in messages" :key="i">
         <textarea class="textarea has-fixed-size mb-2" ref="textarea" tabindex="1" rows="3" v-model="message.text" />
-        <button v-if="i > 0" class="delete close_button"  @click.prevent="contract"/>
+        <button v-if="i > 0" class="delete close_button"  @click.prevent="contract(i)"/>
         <div class="is-flex is-align-items-center is-justify-content-flex-end">
           <p class="mr-3">{{ message.text.length }}</p>
           <plusCircleOutlineIcon class="ui-icon mr-3 has-text-primary" @click.prevent="expand" tabindex="3" />
