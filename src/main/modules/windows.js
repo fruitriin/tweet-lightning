@@ -14,8 +14,8 @@ const winURL =
 function createPostWindow() {
   postWindow = new BrowserWindow({
     useContentSize: true,
-    width: 300,
-    height: 200,
+    width: 356,
+    height: 220,
     skipTaskbar: true,
     alwaysOnTop: preference.get().alwaysOnTop,
     show: false,

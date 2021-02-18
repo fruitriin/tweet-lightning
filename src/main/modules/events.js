@@ -9,9 +9,20 @@ ipcMain.on("postWindow-ready", () => {
 })
 ipcMain.on("postWindow-posted", () => {
   if (preference.get().hideAfterPost) postWindow.hide()
+  const bounds = postWindow.getContentBounds()
+  bounds.height = 220
+  postWindow.setContentBounds(bounds)
 })
 ipcMain.on("postWindow-close", () => {
   postWindow.hide()
+})
+ipcMain.on("postWindow-expand", () => {
+  const size = postWindow.getSize()
+  postWindow.setSize(size[0], size[1] + 155)
+})
+ipcMain.on("postWindow-contract", () => {
+  const size = postWindow.getSize()
+  postWindow.setSize(size[0], size[1] - 155)
 })
 
 ipcMain.on("preferenceWindowReady", () => {

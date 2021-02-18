@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-2">
     <div v-if="users.length > 0">
       <img :src="users[index].profile_image_url_https" />
       <label for>@{{ users[index].screen_name }}</label>
@@ -10,21 +10,28 @@
       @keyup.shift.enter="shiftSubmit"
       @keyup.esc="close"
     >
-      <div v-for="(message, i) in messages" :key="i">
-        <textarea ref="textarea" v-model="message.text" />
-        <input type="submit" />
-        <p>{{ message.text.length }}</p>
-        <button @click.prevent="expand">↓</button>
+      <div class="filed post_area" :class="{'mt-3': i !== 0}" v-for="(message, i) in messages" :key="i">
+        <textarea class="textarea has-fixed-size mb-2" ref="textarea" tabindex="1" rows="3" v-model="message.text" />
+        <button v-if="i > 0" class="delete close_button"  @click.prevent="contract"/>
+        <div class="is-flex is-align-items-center is-justify-content-flex-end">
+          <p class="mr-3">{{ message.text.length }}</p>
+          <plusCircleOutlineIcon class="ui-icon mr-3 has-text-primary" @click.prevent="expand" tabindex="3" />
+          <input class="button is-primary" type="submit" tabindex="2" :disabled="!postable" />
+        </div>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import plusCircleOutlineIcon from 'vue-material-design-icons/plusCircleOutline.vue';
 const Twitter = require("twitter-lite")
 require("dotenv").config()
 
 export default {
+  components: {
+    plusCircleOutlineIcon
+  },
   data() {
     return {
       messages: [{text: ""}],
@@ -33,6 +40,12 @@ export default {
       index: 0,
       clients: [],
       preference: null,
+    }
+  },
+  computed: {
+    // TODO: 140文字制限
+    postable() {
+      return this.messages.every(m => m.text.length > 0 )
     }
   },
   created() {
@@ -65,7 +78,7 @@ export default {
   },
   methods: {
     close() {
-      this.message = ""
+      this.messages.splice(0, this.messages.length, {text: ""})
       this.$renderer.send("postWindow-close")
     },
     shiftSubmit() {
@@ -78,8 +91,16 @@ export default {
     },
     expand(){
       this.messages.push({text: ""})
+      this.$renderer.send("postWindow-expand")
+    },
+    contract(deleteKey){
+      this.messages.splice(deleteKey, 1)
+      this.$renderer.send("postWindow-contract")
     },
     async submitAll(){
+      // 簡易投稿可否チェック
+      if(!this.postable) return
+
       const tmpMessages =  [...this.messages]
       let res = {}
       for(const message of tmpMessages){
@@ -101,3 +122,18 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+.post_area {
+  position:relative;
+
+  .close_button {
+    position: absolute;
+    right: .2rem;
+    top: .2rem;
+    z-index: 1;
+  }
+
+}
+
+</style>
