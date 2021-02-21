@@ -57,3 +57,7 @@ ipcMain.on("tokenRefresh", () => {
   if (postWindow !== null) postWindow.webContents.send("getTokens")
   if (preferenceWindow !== null) preferenceWindow.webContents.send("getTokens")
 })
+
+ipcMain.on("errorLogger", (_, mes) => {
+  console.error(mes)
+})
