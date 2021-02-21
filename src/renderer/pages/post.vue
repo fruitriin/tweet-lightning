@@ -1,5 +1,9 @@
 <template>
   <div class="p-2">
+    <div v-if="hasUpdate && showUpdateNotice" class="notification is-info p-2">
+      <button class="delete" @click="showUpdateNotice = false" />
+        <a :href="latest.html_url" target="_blank">{{dateFormate(latest.published_at)}} - v{{latest.tag_name}} リリース</a>
+    </div>
     <div v-if="users.length > 0">
       <img :src="users[index].profile_image_url_https" />
       <label for>@{{ users[index].screen_name }}</label>
@@ -26,6 +30,7 @@
 <script>
 import plusCircleOutlineIcon from 'vue-material-design-icons/plusCircleOutline.vue';
 const Twitter = require("twitter-lite")
+import dayjs from 'dayjs'
 require("dotenv").config()
 
 export default {
@@ -40,6 +45,9 @@ export default {
       index: 0,
       clients: [],
       preference: null,
+      hasUpdate: null,
+      latest: null,
+      showUpdateNotice: true,
     }
   },
   computed: {
@@ -72,11 +80,15 @@ export default {
         })
       )
     })
+    this.updateCheck()
   },
   mounted() {
     this.$refs.textarea[0].focus()
   },
   methods: {
+    dateFormate(dateTimeString){
+      return dayjs(dateTimeString).format("YYYY年MM月DD日")
+    },
     close() {
       this.messages.splice(0, this.messages.length, {text: ""})
       this.$renderer.send("postWindow-close")
@@ -98,7 +110,6 @@ export default {
       this.$renderer.send("postWindow-contract")
     },
     async submitAll(){
-      // 簡易投稿可否チェック
       if(!this.postable) return
 
       const tmpMessages =  [...this.messages]
@@ -119,6 +130,11 @@ export default {
           window.alert(JSON.stringify(err))
         })
     },
+    async updateCheck(){
+       const latest = await fetch("https://api.github.com/repos/fruitriin/tweet-lightning/releases/latest").then(res => res.json())
+       this.latest = latest
+       this.hasUpdate = latest.tag_name !== process.env.npm_package_version.toString()
+    }
   },
 }
 </script>
