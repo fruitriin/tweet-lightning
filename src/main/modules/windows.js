@@ -10,7 +10,10 @@ const winURL =
   process.env.NODE_ENV === "development"
     ? `http://localhost:9080`
     : path.join("file://", __dirname, "/index.html")
-
+let __static = "static"
+if (process.env.NODE_ENV !== "development") {
+  __static = path.join(__dirname, "/static").replace(/\\/g, "\\\\")
+}
 function createPostWindow() {
   postWindow = new BrowserWindow({
     useContentSize: true,
@@ -19,6 +22,7 @@ function createPostWindow() {
     skipTaskbar: true,
     alwaysOnTop: preference.get().alwaysOnTop,
     show: false,
+    icon: __static + "/70x70.png",
     webPreferences: {
       nodeIntegration: true,
     },
@@ -42,6 +46,7 @@ let preferenceWindow = null
 // 設定画面を開く
 function openPreference() {
   preferenceWindow = new BrowserWindow({
+    icon: __static + "/70x70.png",
     webPreferences: {
       nodeIntegration: true,
     },
@@ -72,7 +77,7 @@ function openAuthWindow() {
     key: process.env.consumer_key,
     secret: process.env.consumer_secret,
   }
-  const authWindow = new BrowserWindow()
+  const authWindow = new BrowserWindow({ icon: __static + "/70x70.png" })
   authWindow.webContents.session.clearCache()
   authWindow.webContents.session.clearStorageData()
   auth
