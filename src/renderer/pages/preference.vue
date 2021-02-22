@@ -26,14 +26,6 @@
                   />
                   Ctrl
                 </label>
-                <label class="checkbox">
-                  <input
-                    v-model="token.shortcut.Super"
-                    type="checkbox"
-                    class="checkbox"
-                  />
-                  Cmd/Win
-                </label>
 
                 <label class="checkbox">
                   <input
@@ -119,14 +111,14 @@
                 Ctrl + Enter
               </label>
             </li>
-            <li>
+            <li v-if="!isWin">
               <label>
                 <input
                   v-model="preference.postShortcut"
                   type="radio"
                   value="meta"
                 />
-                Win/Cmd + Enter
+                Cmd + Enter
               </label>
             </li>
           </ul>
@@ -178,37 +170,37 @@ export default {
     return {
       tokens: null,
       preference: null,
-    };
-  },
-  created() {
-    this.$renderer.send("preferenceWindowReady");
-    this.$renderer.on("getTokens", (_, tokens) => {
-      this.tokens = tokens;
-    });
-    this.$renderer.on("getPreference", (_, preference) => {
-      this.preference = preference;
-    });
+    }
   },
   computed: {
     isWin() {
-      return process.platform === "win32";
+      return process.platform === "win32"
     },
+  },
+  created() {
+    this.$renderer.send("preferenceWindowReady")
+    this.$renderer.on("getTokens", (_, tokens) => {
+      this.tokens = tokens
+    })
+    this.$renderer.on("getPreference", (_, preference) => {
+      this.preference = preference
+    })
   },
   methods: {
     addAuth() {
-      this.$renderer.send("authenticate");
+      this.$renderer.send("authenticate")
     },
     deleteAccount(index) {
-      this.$renderer.send("deleteAccount", index);
+      this.$renderer.send("deleteAccount", index)
     },
     savePreference() {
       this.$renderer.send("changePreference", {
         preference: this.preference,
         accounts: this.tokens,
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss">
