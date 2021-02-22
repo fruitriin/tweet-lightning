@@ -9,32 +9,76 @@
             <div style="width: 160px">[{{ key + 1 }}] {{ token.user }}</div>
             <div>
               <button class="delete" @click="deleteAccount(key)" />
-              <label class="checkbox">
-                <input
-                  :id="`shortcut-${key}-shift`"
-                  v-model="token.shortcut.Shift"
-                  class="checkbox"
-                  type="checkbox"
-                />
-                Shift
-              </label>
-              <label class="checkbox">
-                <input
-                  v-model="token.shortcut.Ctrl"
-                  class="checkbox"
-                  type="checkbox"
-                />
-                Ctrl
-              </label>
+              <template v-if="isWin">
+                <label class="checkbox">
+                  <input
+                    v-model="token.shortcut.Shift"
+                    class="checkbox"
+                    type="checkbox"
+                  />
+                  Shift
+                </label>
+                <label class="checkbox">
+                  <input
+                    v-model="token.shortcut.Ctrl"
+                    class="checkbox"
+                    type="checkbox"
+                  />
+                  Ctrl
+                </label>
+                <label class="checkbox">
+                  <input
+                    v-model="token.shortcut.Super"
+                    type="checkbox"
+                    class="checkbox"
+                  />
+                  Cmd/Win
+                </label>
 
-              <label class="checkbox">
-                <input
-                  v-model="token.shortcut.Alt"
-                  class="checkbox"
-                  type="checkbox"
-                />
-                Alt
-              </label>
+                <label class="checkbox">
+                  <input
+                    v-model="token.shortcut.Alt"
+                    class="checkbox"
+                    type="checkbox"
+                  />
+                  Alt
+                </label>
+              </template>
+              <template v-else>
+                <label class="checkbox">
+                  <input
+                    v-model="token.shortcut.Super"
+                    type="checkbox"
+                    class="checkbox"
+                  />
+                  ⌘
+                </label>
+                <label class="checkbox">
+                  <input
+                    v-model="token.shortcut.Shift"
+                    class="checkbox"
+                    type="checkbox"
+                  />
+                  ⇧
+                </label>
+                <label class="checkbox">
+                  <input
+                    v-model="token.shortcut.Alt"
+                    class="checkbox"
+                    type="checkbox"
+                  />
+                  ⌥
+                </label>
+                <label class="checkbox">
+                  <input
+                    v-model="token.shortcut.Ctrl"
+                    class="checkbox"
+                    type="checkbox"
+                  />
+                  ⌃
+                </label>
+              </template>
+
               +
               <input
                 v-model="token.shortcut.key"
@@ -73,6 +117,16 @@
                   value="ctrl"
                 />
                 Ctrl + Enter
+              </label>
+            </li>
+            <li>
+              <label>
+                <input
+                  v-model="preference.postShortcut"
+                  type="radio"
+                  value="meta"
+                />
+                Win/Cmd + Enter
               </label>
             </li>
           </ul>
@@ -124,32 +178,37 @@ export default {
     return {
       tokens: null,
       preference: null,
-    }
+    };
   },
   created() {
-    this.$renderer.send("preferenceWindowReady")
+    this.$renderer.send("preferenceWindowReady");
     this.$renderer.on("getTokens", (_, tokens) => {
-      this.tokens = tokens
-    })
+      this.tokens = tokens;
+    });
     this.$renderer.on("getPreference", (_, preference) => {
-      this.preference = preference
-    })
+      this.preference = preference;
+    });
+  },
+  computed: {
+    isWin() {
+      return process.platform === "win32";
+    },
   },
   methods: {
     addAuth() {
-      this.$renderer.send("authenticate")
+      this.$renderer.send("authenticate");
     },
     deleteAccount(index) {
-      this.$renderer.send("deleteAccount", index)
+      this.$renderer.send("deleteAccount", index);
     },
     savePreference() {
       this.$renderer.send("changePreference", {
         preference: this.preference,
         accounts: this.tokens,
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
