@@ -12,7 +12,7 @@ const Nucleus = require("nucleus-nodejs")
 Nucleus.init("60258c87bcf16266e1db001d", { disableInDev: true })
 
 Nucleus.setProps({
-  version: process.env.npm_package_version.toString(),
+  version: app.getVersion(),
 })
 Nucleus.appStarted()
 
