@@ -42,7 +42,7 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/310x310.png",
+      "icon": "build/icons/icon.icns",
       "target": "pkg"
     },
     "extraResources": [
@@ -52,7 +52,7 @@
       "license": "license.txt"
     },
     "win": {
-      "icon": "build/icons/310x310.png"
+      "icon": "build/icons/icon.ico"
     },
     "nsis": {
       "unicode": true,

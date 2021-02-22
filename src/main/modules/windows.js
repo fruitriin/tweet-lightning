@@ -22,7 +22,7 @@ function createPostWindow() {
     skipTaskbar: true,
     alwaysOnTop: preference.get().alwaysOnTop,
     show: false,
-    icon: __static + "/70x70.png",
+    icon: __static + "/tray@2x.png",
     webPreferences: {
       nodeIntegration: true,
     },
@@ -46,7 +46,7 @@ let preferenceWindow = null
 // 設定画面を開く
 function openPreference() {
   preferenceWindow = new BrowserWindow({
-    icon: __static + "/70x70.png",
+    icon: __static + "/tray@2x.png",
     webPreferences: {
       nodeIntegration: true,
     },
@@ -77,7 +77,7 @@ function openAuthWindow() {
     key: process.env.consumer_key,
     secret: process.env.consumer_secret,
   }
-  const authWindow = new BrowserWindow({ icon: __static + "/70x70.png" })
+  const authWindow = new BrowserWindow({ icon: __static + "/tray@2x.png" })
   authWindow.webContents.session.clearCache()
   authWindow.webContents.session.clearStorageData()
   auth

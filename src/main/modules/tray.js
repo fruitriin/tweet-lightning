@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== "development") {
 let tray = null
 // ElectronReady
 app.on("ready", () => {
-  tray = new Tray(__static + "/70x70.png")
+  tray = new Tray(__static + "/tray@2x.png")
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "投稿",
