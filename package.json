@@ -89,7 +89,7 @@
     "electron-builder": "22.9.1",
     "electron-debug": "1.5.0",
     "electron-devtools-installer": "2.2.4",
-    "electron-store": "6.0.1",
+    "electron-store": "7.0.2",
     "eslint": "7.19.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-config-standard": "16.0.2",
