@@ -9246,10 +9246,10 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
-twitter-lite@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/twitter-lite/-/twitter-lite-0.14.0.tgz#5ec32d31e693007572d060858f2746ac8aed1a7d"
-  integrity sha512-AP7jnuEBIMA18fi3IDWT7fTOJVpZrl1ZwJKunGf2iknKv5BH4mpwBvJmu3RP59XHZFL3ckUcGGRw/INVRikBBg==
+twitter-lite@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/twitter-lite/-/twitter-lite-1.1.0.tgz#77f250cc73f14ecc5a493ddb81ff0a3e9ae72680"
+  integrity sha512-v37I0zyYXjn3/zdm/ii+1RiBFZ2SCB3wLl1N5nfW8TUqoNDYBR66oXBFbQavKEvjg5WqcTUzNhAhe6FkgylPsw==
   dependencies:
     cross-fetch "^3.0.0"
     oauth-1.0a "^2.2.4"
