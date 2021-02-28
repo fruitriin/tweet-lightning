@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import plusCircleOutlineIcon from "vue-material-design-icons/plusCircleOutline.vue"
+import plusCircleOutlineIcon from "vue-material-design-icons/PlusCircleOutline.vue"
 import dayjs from "dayjs"
 const Twitter = require("twitter-lite")
 require("dotenv").config()
