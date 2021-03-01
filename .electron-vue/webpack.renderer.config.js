@@ -23,7 +23,7 @@ const VueAutoRoutingPlugin = require('vue-auto-routing/lib/webpack-plugin')
 let whiteListedModules = ['vue']
 
 let rendererConfig = {
-  devtool: '#cheap-module-eval-source-map',
+  devtool: '#eval-source-map',
   entry: {
     renderer: path.join(__dirname, '../src/renderer/renderer.js')
   },
@@ -175,7 +175,7 @@ if (process.env.NODE_ENV !== 'production') {
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === 'production') {
-  rendererConfig.devtool = ''
+  rendererConfig.devtool = false
   rendererConfig.optimization = {
     minimize: true,
     minimizer: [new TerserPlugin()],
