@@ -31,19 +31,28 @@ let webConfig = {
       // },
       {
         test: /\.scss$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader']
-      },
-      {
-        test: /\.sass$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax']
-      },
-      {
-        test: /\.less$/,
-        use: ['vue-style-loader', 'css-loader', 'less-loader']
+        use: [
+          'vue-style-loader',
+          {
+            loader: "css-loader",
+            options: {
+              esModule: false,
+            },
+          },
+          'sass-loader'
+        ]
       },
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader']
+        use: [
+          'vue-style-loader',
+          {
+            loader: "css-loader",
+            options: {
+              esModule: false,
+            },
+          },
+        ]
       },
       {
         test: /\.js$/,
