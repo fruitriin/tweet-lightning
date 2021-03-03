@@ -2,11 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "esnext",
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "build"
-  ]
+  "exclude": ["node_modules", "dist", "build"]
 }
