@@ -5,7 +5,7 @@ const path = require("path")
 const auth = require("oauth-electron-twitter")
 
 const windows = []
-let postWindow
+let postWindow = null
 const winURL =
   process.env.NODE_ENV === "development"
     ? `http://localhost:9080`
