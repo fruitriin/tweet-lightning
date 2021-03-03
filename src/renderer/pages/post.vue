@@ -13,7 +13,7 @@
     <form
       @submit.prevent="submitAll"
       @keyup.ctrl.enter="ctrlSubmit"
-      @keyup.shift.enter="shiftSubmit"
+      @keydown.shift.enter="shiftSubmit"
       @keydown.meta.enter="metaSubmit"
       @keyup.esc="close"
     >
@@ -120,9 +120,11 @@ export default {
       this.messages.splice(0, this.messages.length, { text: "" })
       this.$renderer.send("postWindow-close")
     },
-    shiftSubmit() {
+    shiftSubmit(event) {
       if (this.preference.postShortcut !== "shift") return
       this.submitAll()
+      // Shift+Enterで改行しない
+      event.returnValue = false
     },
     ctrlSubmit() {
       if (this.preference.postShortcut !== "ctrl") return
