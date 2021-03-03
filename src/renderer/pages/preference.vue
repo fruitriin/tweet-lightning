@@ -87,67 +87,68 @@
         <button class="authenticate" @click="addAuth">アカウント認証</button>
       </div>
       <div class="col">
-        <template v-if="preference" />
-        <div class="mb-2">
-          <p class="title is-6 mb-0">投稿ショートカット</p>
-          <ul>
-            <li>
-              <label>
-                <input
-                  v-model="preference.postShortcut"
-                  type="radio"
-                  value="shift"
-                />
-                Shift + Enter
-              </label>
-            </li>
-            <li>
-              <label>
-                <input
-                  v-model="preference.postShortcut"
-                  type="radio"
-                  value="ctrl"
-                />
-                Ctrl + Enter
-              </label>
-            </li>
-            <li v-if="!isWin">
-              <label>
-                <input
-                  v-model="preference.postShortcut"
-                  type="radio"
-                  value="meta"
-                />
-                Cmd + Enter
-              </label>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <p class="title is-6 mb-0">詳細設定</p>
-          <ul>
-            <li>
-              <label>
-                <input
-                  v-model="preference.alwaysOnTop"
-                  type="checkbox"
-                  :value="true"
-                />
-                投稿画面を常に最前面に表示
-              </label>
-            </li>
-            <li>
-              <label>
-                <input
-                  v-model="preference.hideAfterPost"
-                  type="checkbox"
-                  :value="true"
-                />
-                投稿したらウィンドウを消す
-              </label>
-            </li>
-          </ul>
-        </div>
+        <template v-if="preference">
+          <div class="mb-2">
+            <p class="title is-6 mb-0">投稿ショートカット</p>
+            <ul>
+              <li>
+                <label>
+                  <input
+                    v-model="preference.postShortcut"
+                    type="radio"
+                    value="shift"
+                  />
+                  Shift + Enter
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    v-model="preference.postShortcut"
+                    type="radio"
+                    value="ctrl"
+                  />
+                  Ctrl + Enter
+                </label>
+              </li>
+              <li v-if="!isWin">
+                <label>
+                  <input
+                    v-model="preference.postShortcut"
+                    type="radio"
+                    value="meta"
+                  />
+                  Cmd + Enter
+                </label>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="title is-6 mb-0">詳細設定</p>
+            <ul>
+              <li>
+                <label>
+                  <input
+                    v-model="preference.alwaysOnTop"
+                    type="checkbox"
+                    :value="true"
+                  />
+                  投稿画面を常に最前面に表示
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    v-model="preference.hideAfterPost"
+                    type="checkbox"
+                    :value="true"
+                  />
+                  投稿したらウィンドウを消す
+                </label>
+              </li>
+            </ul>
+          </div>
+        </template>
       </div>
     </div>
 
