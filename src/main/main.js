@@ -10,7 +10,7 @@ require("./modules/globalShortcuts")
 require("dotenv").config()
 
 const Nucleus = require("nucleus-nodejs")
-Nucleus.init("60258c87bcf16266e1db001d", { disableInDev: true, debug: true })
+Nucleus.init("60258c87bcf16266e1db001d", { disableInDev: true })
 Nucleus.setUserId(machineIdSync())
 
 app.on("ready", () => {

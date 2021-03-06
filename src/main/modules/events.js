@@ -1,6 +1,7 @@
 import { postWindow, preferenceWindow, openAuthWindow } from "./windows"
 import { store, accounts, preference } from "./store"
 import { setPostShortcut } from "./globalShortcuts"
+import { constants } from "./constants"
 const { ipcMain } = require("electron")
 
 ipcMain.on("postWindow-ready", () => {
@@ -10,7 +11,7 @@ ipcMain.on("postWindow-ready", () => {
 ipcMain.on("postWindow-posted", () => {
   if (preference.get().hideAfterPost) postWindow.hide()
   const bounds = postWindow.getContentBounds()
-  bounds.height = 220
+  bounds.height = constants.POST_WINDOW_INIT_HEIGHT
   postWindow.setContentBounds(bounds)
 })
 ipcMain.on("postWindow-close", () => {
@@ -18,11 +19,11 @@ ipcMain.on("postWindow-close", () => {
 })
 ipcMain.on("postWindow-expand", () => {
   const size = postWindow.getSize()
-  postWindow.setSize(size[0], size[1] + 155)
+  postWindow.setSize(size[0], size[1] + constants.POST_WINDOW_EXPAND_HEIGHT)
 })
 ipcMain.on("postWindow-contract", () => {
   const size = postWindow.getSize()
-  postWindow.setSize(size[0], size[1] - 155)
+  postWindow.setSize(size[0], size[1] - constants.POST_WINDOW_EXPAND_HEIGHT)
 })
 
 ipcMain.on("preferenceWindowReady", () => {

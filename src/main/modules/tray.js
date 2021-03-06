@@ -25,6 +25,6 @@ app.on("ready", () => {
     },
     { label: "終了", click: () => app.exit() },
   ])
-  tray.setToolTip("This is my application.")
+  tray.setToolTip("TweetLightning")
   tray.setContextMenu(contextMenu)
 })

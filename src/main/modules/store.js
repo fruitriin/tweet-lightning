@@ -1,21 +1,14 @@
+import { constants } from "./constants"
 const Store = require("electron-store")
 const store = new Store()
 export { store }
-
-const shortcutDefault = {
-  Shift: false,
-  Ctrl: false,
-  Alt: false,
-  Super: false,
-  key: "",
-}
 
 const accounts = {
   get() {
     const accounts = store.get("accounts") || []
     return accounts.map((a) => {
       if (!a.shortcut) {
-        a.shortcut = shortcutDefault
+        a.shortcut = constants.shortcutDefault
       }
       return a
     })
@@ -41,4 +34,4 @@ const preference = {
   },
 }
 
-export { accounts, preference, shortcutDefault }
+export { accounts, preference }

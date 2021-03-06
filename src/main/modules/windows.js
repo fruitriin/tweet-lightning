@@ -1,4 +1,5 @@
-import { store, preference, shortcutDefault } from "./store"
+import { store, preference } from "./store"
+import { constants } from "./constants"
 import Twitter from "twitter-lite"
 const { app, dialog, BrowserWindow } = require("electron")
 const path = require("path")
@@ -17,8 +18,8 @@ if (process.env.NODE_ENV !== "development") {
 function createPostWindow() {
   postWindow = new BrowserWindow({
     useContentSize: true,
-    width: 356,
-    height: 220,
+    width: constants.POST_WINDOW_INIT_WIDTH,
+    height: constants.POST_WINDOW_INIT_HEIGHT,
     skipTaskbar: true,
     alwaysOnTop: preference.get().alwaysOnTop,
     show: false,
@@ -101,7 +102,7 @@ function openAuthWindow() {
           }
         }
         if (needPush) {
-          res.shortcut = shortcutDefault
+          res.shortcut = constants.shortcutDefault
           console.log(res)
           accounts.push(res)
         }
