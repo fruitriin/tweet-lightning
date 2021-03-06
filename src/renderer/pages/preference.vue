@@ -4,150 +4,17 @@
     <div class="container">
       <div class="col">
         <p class="title is-6 mb-0">認証済みアカウント</p>
-        <div v-for="(token, key) in tokens" :key="key" class="row">
-          <div class="field is-flex">
-            <div style="width: 160px">[{{ key + 1 }}] {{ token.user }}</div>
-            <div>
-              <button class="delete" @click="deleteAccount(key)" />
-              <template v-if="isWin">
-                <label class="checkbox">
-                  <input
-                    v-model="token.shortcut.Shift"
-                    class="checkbox"
-                    type="checkbox"
-                  />
-                  Shift
-                </label>
-                <label class="checkbox">
-                  <input
-                    v-model="token.shortcut.Ctrl"
-                    class="checkbox"
-                    type="checkbox"
-                  />
-                  Ctrl
-                </label>
-
-                <label class="checkbox">
-                  <input
-                    v-model="token.shortcut.Alt"
-                    class="checkbox"
-                    type="checkbox"
-                  />
-                  Alt
-                </label>
-              </template>
-              <template v-else>
-                <label class="checkbox">
-                  <input
-                    v-model="token.shortcut.Super"
-                    type="checkbox"
-                    class="checkbox"
-                  />
-                  ⌘
-                </label>
-                <label class="checkbox">
-                  <input
-                    v-model="token.shortcut.Shift"
-                    class="checkbox"
-                    type="checkbox"
-                  />
-                  ⇧
-                </label>
-                <label class="checkbox">
-                  <input
-                    v-model="token.shortcut.Alt"
-                    class="checkbox"
-                    type="checkbox"
-                  />
-                  ⌥
-                </label>
-                <label class="checkbox">
-                  <input
-                    v-model="token.shortcut.Ctrl"
-                    class="checkbox"
-                    type="checkbox"
-                  />
-                  ⌃
-                </label>
-              </template>
-
-              +
-              <input
-                v-model="token.shortcut.key"
-                class="shortcut_key"
-                type="text"
-                maxlength="1"
-                style="ime-mode: disabled"
-                @keypress="token.shortcut.key = ''"
-                @input="token.shortcut.key = $event.target.value.toUpperCase()"
-              />
-            </div>
-          </div>
+        <div v-for="(token, index) in tokens" :key="index" class="row">
+          <Account :token="token" :index="index" :isWin="isWin" />
         </div>
         <button class="authenticate" @click="addAuth">アカウント認証</button>
       </div>
       <div class="col">
         <template v-if="preference">
           <div class="mb-2">
-            <p class="title is-6 mb-0">投稿ショートカット</p>
-            <ul>
-              <li>
-                <label>
-                  <input
-                    v-model="preference.postShortcut"
-                    type="radio"
-                    value="shift"
-                  />
-                  Shift + Enter
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    v-model="preference.postShortcut"
-                    type="radio"
-                    value="ctrl"
-                  />
-                  Ctrl + Enter
-                </label>
-              </li>
-              <li v-if="!isWin">
-                <label>
-                  <input
-                    v-model="preference.postShortcut"
-                    type="radio"
-                    value="meta"
-                  />
-                  Cmd + Enter
-                </label>
-              </li>
-            </ul>
+            <PostShortcut :preference="preference" :isWin="isWin" />
           </div>
-          <div>
-            <p class="title is-6 mb-0">詳細設定</p>
-            <ul>
-              <li>
-                <label>
-                  <input
-                    v-model="preference.alwaysOnTop"
-                    type="checkbox"
-                    :value="true"
-                  />
-                  投稿画面を常に最前面に表示
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    v-model="preference.hideAfterPost"
-                    type="checkbox"
-                    :value="true"
-                  />
-                  投稿したらウィンドウを消す
-                </label>
-              </li>
-            </ul>
-          </div>
+          <DetailConfig :preference="preference" />
         </template>
       </div>
     </div>
@@ -166,7 +33,16 @@
 </template>
 
 <script>
+import Account from "@/components/Preference/Account.vue"
+import PostShortcut from "@/components/Preference/PostShortcut.vue"
+import DetailConfig from "@/components/Preference/DetailConfig.vue"
+
 export default {
+  components: {
+    Account,
+    PostShortcut,
+    DetailConfig,
+  },
   data() {
     return {
       tokens: null,
@@ -221,8 +97,5 @@ export default {
   &:last-of-type {
     margin-bottom: 0.5rem;
   }
-}
-.shortcut_key {
-  width: 1.5rem;
 }
 </style>
