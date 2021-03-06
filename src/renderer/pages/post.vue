@@ -7,74 +7,48 @@
       </a>
     </div>
     <div v-if="users.length > 0">
-      <img :src="users[index].profile_image_url_https" />
-      <label for>@{{ users[index].screen_name }}</label>
+      <img :src="users[currentAccountIndex].profile_image_url_https" />
+      <label>@{{ users[currentAccountIndex].screen_name }}</label>
     </div>
-    <form
-      @submit.prevent="submitAll"
-      @keyup.ctrl.enter="ctrlSubmit"
-      @keydown.shift.enter="shiftSubmit"
-      @keydown.meta.enter="metaSubmit"
-      @keyup.esc="close"
-    >
-      <div
+    <form @keyup.esc="close">
+      <PostArea
         v-for="(message, i) in messages"
+        ref="postarea"
         :key="i"
-        class="filed post_area"
+        :index="i"
+        :message="message"
+        :postable="postable"
+        :preference="preference"
         :class="{ 'mt-3': i !== 0 }"
-      >
-        <textarea
-          ref="textarea"
-          v-model="message.text"
-          class="textarea has-fixed-size mb-2"
-          tabindex="1"
-          rows="3"
-        />
-        <button
-          v-if="i > 0"
-          class="delete close_button"
-          @click.prevent="contract(i)"
-        />
-        <div class="is-flex is-align-items-center is-justify-content-flex-end">
-          <p class="mr-3">{{ message.text.length }}</p>
-          <plusCircleOutlineIcon
-            class="ui-icon mr-3 has-text-primary"
-            tabindex="3"
-            @click.prevent="expand"
-          />
-          <input
-            class="button is-primary"
-            type="submit"
-            tabindex="2"
-            :disabled="!postable"
-          />
-        </div>
-      </div>
+        @expand="expand"
+        @contract="contract"
+        @submit="submitAll"
+      />
     </form>
   </div>
 </template>
 
 <script>
-import plusCircleOutlineIcon from "vue-material-design-icons/PlusCircleOutline.vue"
+import PostArea from "@/components/PostArea"
 import dayjs from "dayjs"
 const Twitter = require("twitter-lite")
 require("dotenv").config()
 
 export default {
   components: {
-    plusCircleOutlineIcon,
+    PostArea,
   },
   data() {
     return {
       messages: [{ text: "" }],
       users: [],
       debug: "",
-      index: 0,
+      currentAccountIndex: 0,
       clients: [],
       preference: null,
       hasUpdate: null,
       latest: null,
-      showUpdateNotice: true,
+      showUpdateNotice: true, // 通知を消したい時用
     }
   },
   computed: {
@@ -85,9 +59,9 @@ export default {
   },
   created() {
     this.$renderer.send("postWindow-ready")
-    this.$renderer.on("show", (_, index) => {
-      this.index = index
-      this.$refs.textarea[0].focus()
+    this.$renderer.on("show", (_, currentAccountIndex) => {
+      this.currentAccountIndex = currentAccountIndex
+      this.focusTextArea()
     })
     this.$renderer.on("getPreference", (_, preference) => {
       this.preference = preference
@@ -110,9 +84,13 @@ export default {
     this.updateCheck()
   },
   mounted() {
-    this.$refs.textarea[0].focus()
+    this.focusTextArea()
   },
   methods: {
+    focusTextArea() {
+      // FIXME
+      this.$refs.postarea[0].$refs.textarea.focus()
+    },
     dateFormate(dateTimeString) {
       return dayjs(dateTimeString).format("YYYY年MM月DD日")
     },
@@ -120,20 +98,7 @@ export default {
       this.messages.splice(0, this.messages.length, { text: "" })
       this.$renderer.send("postWindow-close")
     },
-    shiftSubmit(event) {
-      if (this.preference.postShortcut !== "shift") return
-      this.submitAll()
-      // Shift+Enterで改行しない
-      event.returnValue = false
-    },
-    ctrlSubmit() {
-      if (this.preference.postShortcut !== "ctrl") return
-      this.submitAll()
-    },
-    metaSubmit() {
-      if (this.preference.postShortcut !== "meta") return
-      this.submitAll()
-    },
+
     expand() {
       this.messages.push({ text: "" })
       this.$renderer.send("postWindow-expand")
@@ -143,7 +108,6 @@ export default {
       this.$renderer.send("postWindow-contract")
     },
     async submitAll() {
-      if (!this.postable) return
 
       const tmpMessages = [...this.messages]
       let res = {}
@@ -161,7 +125,7 @@ export default {
       const params = { status, auto_populate_reply_metadata: true }
       if (in_reply_to_status_id)
         params.in_reply_to_status_id = in_reply_to_status_id
-      return await this.clients[this.index]
+      return await this.clients[this.currentAccountIndex]
         .post("statuses/update", params)
         .catch((err) => {
           window.alert(JSON.stringify(err))
@@ -178,16 +142,3 @@ export default {
   },
 }
 </script>
-
-<style scoped lang="scss">
-.post_area {
-  position: relative;
-
-  .close_button {
-    position: absolute;
-    right: 0.2rem;
-    top: 0.2rem;
-    z-index: 1;
-  }
-}
-</style>
