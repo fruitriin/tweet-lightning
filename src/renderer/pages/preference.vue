@@ -5,7 +5,12 @@
       <div class="col">
         <p class="title is-6 mb-0">認証済みアカウント</p>
         <div v-for="(token, index) in tokens" :key="index" class="row">
-          <Account :token="token" :index="index" :isWin="isWin" />
+          <Account
+            :token="token"
+            :index="index"
+            :isWin="isWin"
+            @deleteAccount="deleteAccount"
+          />
         </div>
         <button class="authenticate" @click="addAuth">アカウント認証</button>
       </div>

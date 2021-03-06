@@ -59,6 +59,11 @@ export default {
       localToken: this.token,
     }
   },
+  methods: {
+    deleteAccount(index) {
+      this.$emit("deleteAccount", index)
+    },
+  },
 }
 </script>
 
