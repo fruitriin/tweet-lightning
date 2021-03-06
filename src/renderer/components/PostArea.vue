@@ -17,7 +17,7 @@
       @click.prevent="contract(index)"
     />
     <div class="is-flex is-align-items-center is-justify-content-flex-end">
-      <p class="mr-3">{{ localMessage.length }}</p>
+      <p class="mr-3">{{ localMessage.text.length }}</p>
       <plusCircleOutlineIcon
         class="ui-icon mr-3 has-text-primary"
         tabindex="3"
