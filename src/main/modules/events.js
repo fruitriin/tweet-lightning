@@ -1,7 +1,7 @@
-import { postWindow, preferenceWindow, openAuthWindow } from "./windows"
-import { store, accounts, preference } from "./store"
-import { setPostShortcut } from "./globalShortcuts"
-import { constants } from "./constants"
+import { postWindow, preferenceWindow, openAuthWindow } from "~/modules/windows"
+import { store, accounts, preference } from "~/modules/store"
+import { setPostShortcut } from "~/modules/globalShortcuts"
+import { constants } from "~/modules/constants"
 const { ipcMain } = require("electron")
 
 ipcMain.on("postWindow-ready", () => {

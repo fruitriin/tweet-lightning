@@ -1,4 +1,4 @@
-import { constants } from "./constants"
+import { constants } from "~/modules/constants"
 const Store = require("electron-store")
 const store = new Store()
 export { store }

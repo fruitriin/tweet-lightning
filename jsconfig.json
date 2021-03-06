@@ -5,6 +5,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "paths": {
+      "~/*": ["src/main/*"],
       "@/*": ["src/renderer/*"]
     }
   },

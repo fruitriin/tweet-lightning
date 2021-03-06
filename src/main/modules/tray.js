@@ -1,4 +1,4 @@
-import { postWindow, openPreference } from "./windows"
+import { postWindow, openPreference } from "~/modules/windows"
 const { app, Menu, Tray } = require("electron")
 const path = require("path")
 

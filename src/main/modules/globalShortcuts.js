@@ -1,5 +1,5 @@
-import { accounts } from "./store"
-import { postWindow } from "./windows"
+import { accounts } from "~/modules/store"
+import { postWindow } from "~/modules/windows"
 const { app, globalShortcut } = require("electron")
 
 app.whenReady().then(() => {

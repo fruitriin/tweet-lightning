@@ -1,5 +1,5 @@
-import { store, preference } from "./store"
-import { constants } from "./constants"
+import { store, preference } from "~/modules/store"
+import { constants } from "~/modules/constants"
 import Twitter from "twitter-lite"
 const { app, dialog, BrowserWindow } = require("electron")
 const path = require("path")

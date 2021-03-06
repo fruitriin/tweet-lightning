@@ -2,7 +2,7 @@
 
 import { app, Menu } from "electron"
 import { createPostWindow, postWindow, openPreference } from "./modules/windows"
-import { store } from "./modules/store"
+import { store } from "~/modules/store"
 import { machineIdSync } from "node-machine-id"
 require("./modules/events")
 require("./modules/tray")
@@ -33,23 +33,3 @@ app.on("activate", () => {
 })
 
 Menu.setApplicationMenu(null)
-
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
-
-/*
-import { autoUpdater } from 'electron-updater'
-
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
