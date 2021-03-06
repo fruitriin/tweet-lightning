@@ -108,7 +108,6 @@ export default {
       this.$renderer.send("postWindow-contract")
     },
     async submitAll() {
-
       const tmpMessages = [...this.messages]
       let res = {}
       for (const message of tmpMessages) {
