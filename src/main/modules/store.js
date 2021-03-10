@@ -26,6 +26,8 @@ const preference = {
       alwaysOnTop: true,
       hideAfterPost: true,
       postShortcut: "ctrl",
+      currentFooter: "",
+      footers: ["#TweetLightning"],
     }
     return Object.assign({}, defaultPreference, preference)
   },

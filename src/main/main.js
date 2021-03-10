@@ -14,7 +14,9 @@ Nucleus.init("60258c87bcf16266e1db001d", { disableInDev: true })
 Nucleus.setUserId(machineIdSync())
 
 app.on("ready", () => {
-  Nucleus.setProps({ version: process.env.npm_package_version })
+  Nucleus.setProps({
+    version: process.env.npm_package_version || app.getVersion(),
+  })
   Nucleus.appStarted()
 
   const accounts = store.get("accounts") || []

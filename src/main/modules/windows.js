@@ -69,6 +69,8 @@ function openPreference() {
       } else {
         app.exit()
       }
+    } else {
+      preferenceWindow = null
     }
   })
 }

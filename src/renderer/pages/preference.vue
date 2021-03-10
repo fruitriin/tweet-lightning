@@ -19,6 +19,19 @@
           <div class="mb-2">
             <PostShortcut :preference="preference" :isWin="isWin" />
           </div>
+          <div class="mb-2">
+            <p class="title is-6 mb-0">フッター（ハッシュタグ）</p>
+            <ul>
+              <li
+                v-for="(footer, i) in preference.footers"
+                :key="i"
+                type="text"
+              >
+                <button class="delete" @click="deleteFooter(i)" />
+                [{{ i + 1 }}]{{ footer }}
+              </li>
+            </ul>
+          </div>
           <DetailConfig :preference="preference" />
         </template>
       </div>
@@ -52,6 +65,7 @@ export default {
     return {
       tokens: null,
       preference: null,
+      newFooter: "",
     }
   },
   computed: {
@@ -74,6 +88,10 @@ export default {
     },
     deleteAccount(index) {
       this.$renderer.send("deleteAccount", index)
+    },
+    deleteFooter(i) {
+      this.preference.footer.splice(i, 1)
+      this.savePreference()
     },
     savePreference() {
       this.$renderer.send("changePreference", {

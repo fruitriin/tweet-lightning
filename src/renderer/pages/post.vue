@@ -20,16 +20,18 @@
         :postable="postable"
         :preference="preference"
         :class="{ 'mt-3': i !== 0 }"
+        :isLast="messages.length === i + 1"
         @expand="expand"
         @contract="contract"
         @submit="submitAll"
+        @changePreference="changePreference"
       />
     </form>
   </div>
 </template>
 
 <script>
-import PostArea from "@/components/PostArea"
+import PostArea from "@/components/Post/PostArea"
 import dayjs from "dayjs"
 const Twitter = require("twitter-lite")
 require("dotenv").config()
@@ -44,11 +46,13 @@ export default {
       users: [],
       debug: "",
       currentAccountIndex: 0,
+      tokens: null,
       clients: [],
       preference: null,
       hasUpdate: null,
       latest: null,
       showUpdateNotice: true, // 通知を消したい時用
+      version: null,
     }
   },
   computed: {
@@ -67,6 +71,7 @@ export default {
       this.preference = preference
     })
     this.$renderer.on("getTokens", async (_, tokens) => {
+      this.tokens = tokens
       this.clients = tokens.map((t) => {
         return new Twitter({
           consumer_key: process.env.consumer_key,
@@ -81,7 +86,10 @@ export default {
         })
       )
     })
-    this.updateCheck()
+    this.$renderer.on("getVersion", (_, version) => {
+      this.version = version
+      this.updateCheck()
+    })
   },
   mounted() {
     this.focusTextArea()
@@ -100,12 +108,18 @@ export default {
     },
 
     expand() {
-      this.messages.push({ text: "" })
+      this.messages.push({ text: "" + this.preference.currentFooter })
       this.$renderer.send("postWindow-expand")
     },
     contract(deleteKey) {
       this.messages.splice(deleteKey, 1)
       this.$renderer.send("postWindow-contract")
+    },
+    changePreference(val) {
+      this.$renderer.send("changePreference", {
+        preference: val.preference,
+        accounts: this.tokens,
+      })
     },
     async submitAll() {
       const tmpMessages = [...this.messages]
@@ -116,8 +130,10 @@ export default {
           in_reply_to_status_id: res.id_str,
         })
       }
-      // FIXME: 途中で失敗したときにメッセージが全滅する
-      this.messages.splice(0, this.messages.length, { text: "" })
+      // TODO: 途中で失敗したときにメッセージが全滅する
+      this.messages.splice(0, this.messages.length, {
+        text: "" + this.preference.currentFooter,
+      })
       this.$renderer.send("postWindow-posted")
     },
     async submit({ status, in_reply_to_status_id }) {
@@ -135,8 +151,8 @@ export default {
         "https://api.github.com/repos/fruitriin/tweet-lightning/releases/latest"
       ).then((res) => res.json())
       this.latest = latest
-      this.hasUpdate =
-        latest.tag_name !== process.env.npm_package_version.toString()
+      this.hasUpdate = latest.tag_name !== this.version
+      console.log(this.version)
     },
   },
 }

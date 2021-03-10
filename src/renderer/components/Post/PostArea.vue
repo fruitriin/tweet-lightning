@@ -16,28 +16,41 @@
       class="delete close_button"
       @click.prevent="contract(index)"
     />
-    <div class="is-flex is-align-items-center is-justify-content-flex-end">
-      <p class="mr-3">{{ localMessage.text.length }}</p>
-      <plusCircleOutlineIcon
-        class="ui-icon mr-3 has-text-primary"
-        tabindex="3"
-        @click.prevent="expand"
-      />
-      <input
-        class="button is-primary"
-        type="submit"
-        tabindex="2"
-        :disabled="!postable"
-      />
+    <div class="is-flex is-align-items-center is-justify-content-space-between">
+      <div class="is-flex is-align-items-center">
+        <p class="ml-3" style="width: 3em">{{ localMessage.text.length }}</p>
+        <FooterSelector
+          :preference="preference"
+          @change="changeFooter"
+          @changePreference="$emit('changePreference', { preference })"
+        />
+      </div>
+      <div class="is-flex is-align-items-center">
+        <plusCircleOutlineIcon
+          class="ui-icon mr-3 has-text-primary"
+          tabindex="3"
+          @click.prevent="expand"
+        />
+        <input
+          v-if="isLast"
+          class="button is-primary"
+          type="submit"
+          tabindex="2"
+          :disabled="!postable"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import plusCircleOutlineIcon from "vue-material-design-icons/PlusCircleOutline.vue"
+import FooterSelector from "@/components/Post/FooterSelector.vue"
+
 export default {
   components: {
     plusCircleOutlineIcon,
+    FooterSelector,
   },
   props: {
     message: {
@@ -54,7 +67,11 @@ export default {
     },
     preference: {
       type: Object,
-      required: true,
+      default: null,
+    },
+    isLast: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -93,6 +110,21 @@ export default {
       if (!this.postable) return
 
       this.$emit("submit")
+    },
+    async changeFooter({ newValue, oldValue }) {
+      this.localMessage.text = this.localMessage.text.replace(
+        ` ${oldValue}`,
+        ""
+      )
+      this.localMessage.text = `${this.localMessage.text} ${newValue}`
+
+      const tmpPreference = this.preference
+      tmpPreference.currentFooter = newValue
+      this.$emit("changePreference", { preference: tmpPreference })
+
+      this.$refs.textarea.focus()
+      await this.$nextTick()
+      this.$refs.textarea.setSelectionRange(0, 0)
     },
   },
 }
