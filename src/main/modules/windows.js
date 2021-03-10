@@ -93,27 +93,32 @@ function openAuthWindow() {
         access_token_key: res.token,
         access_token_secret: res.tokenSecret,
       })
-      client.get("account/verify_credentials").then((user) => {
-        res.user = user.screen_name
+      client
+        .get("account/verify_credentials")
+        .then((user) => {
+          res.user = user.screen_name
 
-        let needPush = true
-        for (const account of accounts) {
-          if (account.user === res.user) {
-            account.user = res.user
-            needPush = false
+          let needPush = true
+          for (const account of accounts) {
+            if (account.user === res.user) {
+              account.user = res.user
+              needPush = false
+            }
           }
-        }
-        if (needPush) {
-          res.shortcut = constants.shortcutDefault
-          console.log(res)
-          accounts.push(res)
-        }
+          if (needPush) {
+            res.shortcut = constants.shortcutDefault
+            console.log(res)
+            accounts.push(res)
+          }
 
-        store.set("accounts", accounts)
-        for (const win of windows) {
-          win.webContents.send("getTokens", accounts)
-        }
-      })
+          store.set("accounts", accounts)
+          for (const win of windows) {
+            win.webContents.send("getTokens", accounts)
+          }
+        })
+        .catch((err) => {
+          console.log("err" + JSON.stringify(err))
+        })
 
       authWindow.close()
     })
