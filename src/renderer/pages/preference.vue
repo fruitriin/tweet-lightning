@@ -90,7 +90,7 @@ export default {
       this.$renderer.send("deleteAccount", index)
     },
     deleteFooter(i) {
-      this.preference.footer.splice(i, 1)
+      this.preference.footers.splice(i, 1)
       this.savePreference()
     },
     savePreference() {
