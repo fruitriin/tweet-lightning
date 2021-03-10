@@ -2,7 +2,7 @@
   <div class="field is-flex">
     <div style="width: 160px">[{{ index + 1 }}] {{ token.user }}</div>
     <div>
-      <button class="delete" @click="deleteAccount(index)" />
+      <button class="delete" @click="$emit('deleteAccount', index)" />
       <template v-if="isWin">
         <CheckboxInput v-model="localToken.shortcut.Shift" modelKey="">
           Shift
