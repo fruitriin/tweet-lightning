@@ -34,4 +34,26 @@ app.on("activate", () => {
   }
 })
 
-Menu.setApplicationMenu(null)
+const isMac = process.platform === "darwin"
+
+const template = [
+  {
+    label: app.name,
+  },
+  {
+    label: "Edit",
+    submenu: [
+      { role: "undo" },
+      { role: "redo" },
+      { type: "separator" },
+      { role: "cut" },
+      { role: "copy" },
+      { role: "paste" },
+      { role: "delete" },
+      { role: "selectAll" },
+    ],
+  },
+]
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(isMac ? menu : null)
