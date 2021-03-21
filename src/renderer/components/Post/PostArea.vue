@@ -36,6 +36,7 @@
           class="button is-primary"
           type="submit"
           tabindex="2"
+          @click="submitAll"
           :disabled="!postable"
         />
       </div>
