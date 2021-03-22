@@ -8,6 +8,7 @@ const { spawn } = require("child_process");
 const webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
 const webpackHotMiddleware = require("webpack-hot-middleware");
+const psTree = require('ps-tree')
 
 const mainConfig = require("./webpack.main.config");
 const rendererConfig = require("./webpack.renderer.config");
@@ -100,7 +101,14 @@ function startMain() {
 
       if (electronProcess && electronProcess.kill) {
         manualRestart = true;
-        process.kill(electronProcess.pid);
+        psTree(electronProcess.pid, (err, children) => {
+          console.log(children)
+          children.forEach((child) => {
+            process.kill(child.PPID)
+          })
+        })
+        // process.kill(electronProcess.pid);
+        process.kill(electronProcess.pid)
         electronProcess = null;
         startElectron();
 
@@ -150,10 +158,10 @@ function electronLog(data, color) {
   if (/[0-9A-z]+/.test(log)) {
     console.log(
       chalk[color].bold("┏ Electron -------------------") +
-        "\n\n" +
-        log +
-        chalk[color].bold("┗ ----------------------------") +
-        "\n"
+      "\n\n" +
+      log +
+      chalk[color].bold("┗ ----------------------------") +
+      "\n"
     );
   }
 }
