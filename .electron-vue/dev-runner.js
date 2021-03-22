@@ -101,13 +101,9 @@ function startMain() {
 
       if (electronProcess && electronProcess.kill) {
         manualRestart = true;
-        psTree(electronProcess.pid, (err, children) => {
-          console.log(children)
-          children.forEach((child) => {
-            process.kill(child.PPID)
-          })
-        })
-        // process.kill(electronProcess.pid);
+
+        cleanup()
+
         process.kill(electronProcess.pid)
         electronProcess = null;
         startElectron();
@@ -195,5 +191,17 @@ function init() {
       console.error(err);
     });
 }
+
+function cleanup() {
+  psTree(electronProcess.pid, (err, children) => {
+    children.forEach((child) => {
+      process.kill(child.PPID)
+    })
+  })
+}
+
+process.on('SIGINT', cleanup)
+process.on('SIGTERM', cleanup)
+process.on('SIGQUIT', cleanup)
 
 init();
