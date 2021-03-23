@@ -194,9 +194,13 @@ function init() {
 
 function cleanup() {
   psTree(electronProcess.pid, (err, children) => {
-    children.forEach((child) => {
-      process.kill(child.PPID)
-    })
+    try {
+      children.forEach((child) => {
+        process.kill(child.PPID)
+      })
+    }catch (e){
+      // windowsではエラーが出るがちゃんと死ぬので気にしない
+    }
   })
 }
 
