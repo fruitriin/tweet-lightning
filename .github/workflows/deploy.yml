@@ -35,12 +35,11 @@ jobs:
           github_token: ${{ secrets.github_token }}
 
       - name: copy file via ssh password
-        uses: alinz/ssh-scp-action@master
+        uses: lbejiuk/scp_action@v1
         with:
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.KEY}}
-          scp: |
-            build/*.exe ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~/www/tweetlightning.riinswork.space/
-            build/*.pkg ${{ secrets.USERNAME }}@${{ secrets.HOST }}~/www/tweetlightning.riinswork.space/
+          ssh_host: ${{ secrets.HOST }}
+          ssh_username: ${{ secrets.USERNAME }}
+          ssh_port: ${{ secrets.PORT }}
+          public_key: ${{ secrets.KEY}}
+          source: "build/*.exe,build/*.pkg"
+          target: /www/tweetlightning.riinswork.space/
