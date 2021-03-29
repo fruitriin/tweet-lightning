@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
