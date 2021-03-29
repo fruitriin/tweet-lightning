@@ -28,12 +28,13 @@ jobs:
       run: yarn --frozen-lockfile
     - run: yarn build
     - name: copy file via ssh password
-      uses: appleboy/scp-action@master
+      uses: alinz/ssh-scp-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         key: ${{ secrets.KEY}}
-        source: "build/*.exe,build/*.pkg"
-        target: "www/tweetlightning.riinswork.space/"
+        scp: |
+          build/*.exe ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~/www/tweetlightning.riinswork.space/
+          build/*.pkg ${{ secrets.USERNAME }}@${{ secrets.HOST }}~/www/tweetlightning.riinswork.space/
