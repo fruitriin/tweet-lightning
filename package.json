@@ -108,7 +108,7 @@
     "html-webpack-plugin": "5.3.1",
     "mini-css-extract-plugin": "1.4.1",
     "multispinner": "0.2.1",
-    "node-loader": "1.0.2",
+    "node-loader": "2.0.0",
     "node-machine-id": "1.1.12",
     "node-sass": "5.0.0",
     "oauth-electron-twitter": "fruitriin/oauth-electron-twitter",
