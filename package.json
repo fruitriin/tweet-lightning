@@ -28,7 +28,7 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "fruitriin",
+      "owner": "fruitriin"
     },
     "dmg": {
       "contents": [
