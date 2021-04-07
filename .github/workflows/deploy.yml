@@ -5,15 +5,12 @@ name: Build/release
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags:
+      - "v*"
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
@@ -30,16 +27,6 @@ jobs:
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
-          # GitHub token, automatically provided to the action
-          # (No need to define this secret in the repo settings)
           github_token: ${{ secrets.github_token }}
 
-      - name: copy file via ssh password
-        uses: lbejiuk/scp_action@v1
-        with:
-          ssh_host: ${{ secrets.HOST }}
-          ssh_username: ${{ secrets.USERNAME }}
-          ssh_port: ${{ secrets.PORT }}
-          public_key: ${{ secrets.KEY}}
-          source: "build/*.exe,build/*.pkg"
-          target: /www/tweetlightning.riinswork.space/
+          release: ${{ startsWith(github.ref, 'refs/tags/v') }}

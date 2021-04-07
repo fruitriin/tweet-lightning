@@ -26,6 +26,12 @@
     "files": [
       "dist/electron/**/*"
     ],
+    "publish": {
+      "provider": "github",
+      "owner": "fruitriin",
+      "repo": "tweet-lightning",
+      "releaseType": "release"
+    },
     "dmg": {
       "contents": [
         {
