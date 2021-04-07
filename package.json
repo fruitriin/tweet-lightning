@@ -28,7 +28,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "fruitriin"
+      "owner": "fruitriin",
+      "releaseType": "prerelease"
     },
     "dmg": {
       "contents": [
