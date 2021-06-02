@@ -2190,15 +2190,15 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cfonts@2.9.1:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/cfonts/-/cfonts-2.9.1.tgz#90befec39cf0c779cbf82859c342aad44df1bc06"
-  integrity sha512-POZzm27BA8J/fgTeTpfKMmZKdij6L+8k2JsYJsrM5V7+HSFy0I03IEysng/IxGnzhteM7+PyH0rmZx+NeNMR2Q==
+cfonts@2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/cfonts/-/cfonts-2.9.3.tgz#b7dc439212fcf70cb5df1f3acfba14a2eac22902"
+  integrity sha512-HVDE+Qsoi8s4iwDLCRK/l8yQVAkLyPvz1jc1ZUvDSXkAZVN2Dtdw4Rsx0uhXNouHHVmCPa5bvmZ7oUYWzP6oow==
   dependencies:
-    chalk "^4.1.0"
+    chalk "^4.1.1"
     window-size "^1.1.1"
 
-chalk@4.1.1:
+chalk@4.1.1, chalk@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.1.tgz#c80b3fab28bf6371e6863325eee67e618b77e6ad"
   integrity sha512-diHzdDKxcU+bAsUboHLPEDQiw0qEe0qd7SYUn3HgcFlWgbDcfLGswOHYeGrHKzG9z6UYf01d9VFMfZxPM1xZSg==
