@@ -1,6 +1,6 @@
 # TweetLightning
 
-シュッと投稿できるTwitterクライアント
+タイムラインがなくて投稿だけできるTwitterクライアント
 
 ![ScreenShot](https://github.com/fruitriin/tweet-lightning/blob/master/images/ScreenShot.png)
 
