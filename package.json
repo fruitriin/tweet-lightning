@@ -112,7 +112,7 @@
     "node-machine-id": "1.1.12",
     "node-sass": "5.0.0",
     "oauth-electron-twitter": "fruitriin/oauth-electron-twitter",
-    "prettier": "2.2.1",
+    "prettier": "2.8.8",
     "ps-tree": "1.2.0",
     "sass-loader": "11.0.1",
     "style-loader": "2.0.0",
